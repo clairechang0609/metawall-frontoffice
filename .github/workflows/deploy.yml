@@ -27,6 +27,7 @@ jobs:
         npm run build
     - name: commit & push
       run: |
+        cd ./dist
         git init
         git remote add origin git@github.com:clairechang0609/metawall-frontoffice.git
         git checkout -b gh-pages
