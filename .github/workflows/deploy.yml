@@ -27,6 +27,7 @@ jobs:
         npm run build
     - name: commit & push
       run: |
+        git config --global init.defaultBranch master
         cd ./dist
         git init
         git config --local user.name $USER_NAME
