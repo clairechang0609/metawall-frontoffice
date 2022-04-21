@@ -29,6 +29,8 @@ jobs:
       run: |
         cd ./dist
         git init
+        git config --local user.name $USER_NAME
+        git config --local user.email $USER_EMAIL
         git remote add origin git@github.com:clairechang0609/metawall-frontoffice.git
         git checkout -b gh-pages
         git add -A
