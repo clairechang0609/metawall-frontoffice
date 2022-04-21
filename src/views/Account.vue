@@ -105,7 +105,6 @@ export default {
 	},
 	computed: {
 		formIsFinished() {
-			console.log('hello');
 			return this.passwordInfo.password && this.passwordInfo.confirm_password;
 		}
 	},
