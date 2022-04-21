@@ -32,4 +32,4 @@ jobs:
         git checkout -b gh-pages
         git add -A
         git commit -m 'deploy'
-        git push origin gh-pages -f
+        git push gh-pages -f
