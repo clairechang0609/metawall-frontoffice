@@ -27,7 +27,7 @@ jobs:
         npm run build
     - name: 移動至到打包後的dist目錄
       run: |
-        cd dist
+        cd ./dist
         git init
         git add -A
         git commit -m 'deploy'
