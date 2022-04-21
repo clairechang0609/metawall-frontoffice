@@ -2,7 +2,7 @@ name: deploy gh-pages
 on:
   push:
     branches:
-      - main
+      - master
 jobs:
   build:
     name: Build and deploy gh-pages
@@ -19,16 +19,18 @@ jobs:
     - name: 當發生錯誤時終止腳本運行
       run: |
         set -e
+    - name: npm install
+      run: |
+        npm install
     - name: npm run build
       run: |
         npm run build
-    - name: 移動至到打包後的dist目錄
+    - name: commit & push
       run: |
-        cd dist
         git init
+        git remote add origin git@github.com:clairechang0609/metawall-frontoffice.git
+        git checkout -b gh-pages
         git add -A
         git commit -m 'deploy'
-    - name: 部署到 git@github.com:clairechang0609/metawall-frontoffice.git 分支為 gh-pages
-      run: |
-        git push -f git@github.com:clairechang0609/metawall-frontoffice.git master:gh-pages
-        cd -
+        git push origin gh-pages -f
+ 
