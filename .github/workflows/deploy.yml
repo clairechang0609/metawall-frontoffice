@@ -19,6 +19,9 @@ jobs:
     - name: 當發生錯誤時終止腳本運行
       run: |
         set -e
+    - name: npm install
+      run: |
+        npm install
     - name: npm run build
       run: |
         npm run build
