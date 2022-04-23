@@ -108,8 +108,7 @@ export default {
 		return {
 			posts: [],
 			search: {
-				type: '', // 搜尋類別
-				keyword: '' // 關鍵字
+				content: '' // 關鍵字
 			},
 			isLoading: false
 		};
@@ -120,24 +119,42 @@ export default {
 	methods: {
 		getPosts() {
 			this.isLoading = true;
-			const url = 'https://guarded-sea-58117.herokuapp.com/posts';
-			// 取得搜尋 query 字串
-			const searchQuery = new URLSearchParams(this.search).toString();
-			fetch(`${url}?${searchQuery}`, {
+			const config = {
 				method: 'GET',
+				url: 'https://peaceful-citadel-43202.herokuapp.com/posts',
 				params: this.search
-			})
+			};
+			this.$http(config)
 				.then(response => {
-					return response.json();
-				})
-				.then(json => {
-					this.posts = json.data;
+					if (response.data.status) {
+						console.log(response);
+					} else {
+						console.log(111);
+					}
 					this.isLoading = false;
 				})
 				.catch(error => {
 					console.log(error);
 					this.isLoading = false;
 				});
+
+			// 取得搜尋 query 字串
+			// const searchQuery = new URLSearchParams(this.search).toString();
+			// fetch(`${url}?${searchQuery}`, {
+			// 	method: 'GET',
+			// 	params: this.search
+			// })
+			// 	.then(response => {
+			// 		return response.json();
+			// 	})
+			// 	.then(json => {
+			// 		this.posts = json.data;
+			// 		this.isLoading = false;
+			// 	})
+			// 	.catch(error => {
+			// 		console.log(error);
+			// 		this.isLoading = false;
+			// 	});
 		},
 		getDate(createdAt) {
 			const date = createdAt.split('T');
