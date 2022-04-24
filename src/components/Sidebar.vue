@@ -7,7 +7,7 @@
 			<ul class="mt-4 ms-2">
 				<li class="mb-3 fw-bold">
 					<router-link :to="{ name: 'PersonalPage' }" class="link d-flex align-items-center text-decoration-none">
-						<img src="~@/assets/img/user-head.png" alt="head" class="info-icon rounded-circle d-block me-3">
+						<img src="~@/assets/img/user-photo.png" alt="head" class="info-icon rounded-circle d-block me-3 border">
 						邊緣小杰
 					</router-link>
 				</li>

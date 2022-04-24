@@ -17,7 +17,7 @@
 					<!-- 暱稱修改 -->
 					<div class="tab-pane fade show active" id="edit-name" aria-labelledby="edit-name-tab">
 						<div class="card-body p-4 d-flex flex-column align-items-center">
-							<img src="~@assets/img/user-head.png" class="headshot d-block mb-3">
+							<img src="~@assets/img/user-photo.png" class="headshot d-block mb-3 border rounded-circle">
 							<button type="button" class="btn bg-black text-white rounded-0 shadow-none px-4 py-2">
 								上傳大頭照
 							</button>

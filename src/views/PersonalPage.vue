@@ -52,7 +52,7 @@
 					</div>
 					<div class="card-body">
 						<p v-html="post.content" class="mb-3"></p>
-						<img v-if="post.picture" :src="getPictureUrl(post.picture)" class="w-100 mb-3">
+						<img v-if="post.picture" :src="getPictureUrl(post.picture)" class="w-100 mb-3 border rounded">
 					</div>
 				</div>
 			</div>
@@ -79,7 +79,7 @@ export default {
 			is_follow: false,
 			info: {
 				name: '阿爾敏',
-				headshot: 'user-head-2.png',
+				headshot: 'user-photo.png',
 				follower: '987,987'
 			},
 			posts: [
@@ -87,7 +87,7 @@ export default {
 					id: 1,
 					date: '2022/1/10 12:00',
 					content: '今天找到一張大海的照片<br>太美拉～～～',
-					picture: 'post-picture-3.png'
+					picture: 'image.png'
 				},
 				{
 					id: 2,

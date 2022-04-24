@@ -9,7 +9,7 @@
 			<div class="nav-item dropdown">
 				<div class="nav-link dropdown-toggle d-flex align-items-center pe-0"
 					id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-					<img src="~@/assets/img/user-head.png" alt="head" class="head d-block me-2">
+					<img src="~@/assets/img/user-photo.png" alt="head" class="head d-block me-2 border rounded-circle">
 					<a href="#" class="border-bottom p-0 text-black text-decoration-none">Member</a>
 				</div>
 				<ul class="dropdown-menu rounded-0 p-0 text-center" aria-labelledby="navbarDropdown">

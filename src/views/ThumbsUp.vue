@@ -5,7 +5,7 @@
 				<h3 class="title py-3 border bg-white text-center mb-4">我按讚的貼文</h3>
 				<div class="rounded-card card mb-3" v-for="item in thumbsUp" :key="item.id">
 					<div class="card-body d-flex align-items-center">
-						<img :src="getPictureUrl(item.headshot)" class="headshot">
+						<img :src="getPictureUrl(item.headshot)" class="headshot border rounded-circle">
 						<div class="d-flex flex-column ms-3">
 							<a href="#" class="fw-bold">{{ item.name }}</a>
 							<small class="text-black-50">發文時間：{{ item.date }}</small>
@@ -46,31 +46,31 @@ export default {
 			thumbsUp: [
 				{
 					id: 111,
-					headshot: 'user-head.png',
+					headshot: 'user-photo.png',
 					name: '愛爾敏',
 					date: '2022/2/22 12:00'
 				},
 				{
 					id: 222,
-					headshot: 'user-head.png',
+					headshot: 'user-photo.png',
 					name: '米卡莎',
 					date: '2022/2/11 12:00'
 				},
 				{
 					id: 333,
-					headshot: 'user-head.png',
+					headshot: 'user-photo.png',
 					name: '李維',
 					date: '2022/1/22 12:00'
 				},
 				{
 					id: 444,
-					headshot: 'user-head.png',
+					headshot: 'user-photo.png',
 					name: '米歇爾',
 					date: '2022/1/14 12:00'
 				},
 				{
 					id: 555,
-					headshot: 'user-head.png',
+					headshot: 'user-photo.png',
 					name: '愛爾敏',
 					date: '2022/1/10 12:00'
 				}

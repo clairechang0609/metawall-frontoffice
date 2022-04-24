@@ -13,7 +13,6 @@ window.jQuery = $;
 window.$ = $;
 
 Vue.use(VueAxios, axios);
-axios.defaults.withCredentials = true;
 Vue.component('Loading', Loading);
 
 new Vue({

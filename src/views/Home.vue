@@ -6,15 +6,13 @@
 				<!-- 搜尋欄 -->
 				<div class="row mb-3">
 					<div class="col-4">
-						<select name="type" class="form-control form-select rounded-0" v-model="search.type"
-							@change="getPosts()">
-							<option value="">請選擇</option>
-							<option value="date">最新貼文</option>
+						<select name="type" class="form-control form-select rounded-0">
+							<option value="" selected>最新貼文</option>
 						</select>
 					</div>
 					<div class="col-8">
 						<div class="input-group">
-							<input type="text" class="form-control rounded-0" placeholder="搜尋貼文" v-model="search.keyword">
+							<input type="text" class="form-control rounded-0" placeholder="搜尋貼文" v-model="search.content" @keyup.enter="getPosts()">
 							<button class="btn btn-primary shadow-none rounded-0 px-3 py-0 fs-5" type="button" @click="getPosts()">
 								<i class="bi bi-search"></i>
 							</button>
@@ -38,7 +36,7 @@
 					<div class="rounded-card card mb-3" v-for="post in posts" :key="post.id">
 						<div class="card-header bg-transparent pt-3 border-0">
 							<div class="d-flex align-items-center">
-								<img :src="getUserPhotoUrl(post.headshot)" class="headshot">
+								<img :src="getUserPhotoUrl(post.headshot)" class="headshot border rounded-circle">
 								<div class="d-flex flex-column ms-3">
 									<a href="#" class="fw-bold">{{ post.name }}</a>
 									<small class="text-black-50">{{ getDate(post.createdAt) }}</small>
@@ -47,8 +45,8 @@
 						</div>
 						<div class="card-body">
 							<p v-html="post.content" class="mb-3"></p>
-							<img :src="getImageUrl(post.picture)" class="w-100 mb-3">
-							<!-- <a href="#" class="text-decoration-none" v-if="post.thumbs_up > 0">
+							<img :src="getImageUrl(post.picture)" class="w-100 mb-3 border rounded">
+							<a href="#" class="text-decoration-none" v-if="post.thumbs_up > 0">
 								<i class="bi bi-hand-thumbs-up text-primary fs-5"></i>
 								{{ post.thumbs_up }}
 							</a>
@@ -57,14 +55,14 @@
 								成為第一個按讚的朋友
 							</a>
 							<div class="d-flex align-items-center mt-3">
-								<img src="~@/assets/img/user-head.png" class="headshot me-2">
+								<img src="~@/assets/img/user-photo.png" class="headshot me-2 border rounded-circle">
 								<div class="input-group">
 									<input type="text" class="form-control rounded-0" placeholder="留言..." aria-describedby="search">
 									<button class="btn btn-primary shadow-none rounded-0 px-4" type="button">
 										留言
 									</button>
 								</div>
-							</div> -->
+							</div>
 							<!-- 用戶回覆 -->
 							<!-- <ul v-if="post.messages.length > 0" class="mt-3">
 								<li v-for="message in post.messages" :key="message.id" class="mb-3">
@@ -126,10 +124,10 @@ export default {
 			};
 			this.$http(config)
 				.then(response => {
-					if (response.data.status) {
-						console.log(response);
+					if (response.data.status === 'success') {
+						this.posts = response.data.data;
 					} else {
-						console.log(111);
+						console.log(response.data.message);
 					}
 					this.isLoading = false;
 				})
@@ -137,35 +135,17 @@ export default {
 					console.log(error);
 					this.isLoading = false;
 				});
-
-			// 取得搜尋 query 字串
-			// const searchQuery = new URLSearchParams(this.search).toString();
-			// fetch(`${url}?${searchQuery}`, {
-			// 	method: 'GET',
-			// 	params: this.search
-			// })
-			// 	.then(response => {
-			// 		return response.json();
-			// 	})
-			// 	.then(json => {
-			// 		this.posts = json.data;
-			// 		this.isLoading = false;
-			// 	})
-			// 	.catch(error => {
-			// 		console.log(error);
-			// 		this.isLoading = false;
-			// 	});
 		},
-		getDate(createdAt) {
-			const date = createdAt.split('T');
-			const time = date[1].split('.')[0];
-			return `${date[0]} ${time}`;
+		getDate(createdAt) { // 取得本地時間
+			const date = new Date(createdAt).toLocaleDateString();
+			const time = new Date(createdAt).toTimeString().split(' ')[0];
+			return `${date} ${time}`;
 		},
-		getUserPhotoUrl(path) {
-			return require('@/assets/img/user-head.png');
+		getUserPhotoUrl() {
+			return require('@/assets/img/user-photo.png');
 		},
-		getImageUrl(path) {
-			return require('@/assets/img/post-picture.png');
+		getImageUrl() {
+			return require('@/assets/img/image.png');
 		}
 	}
 };
