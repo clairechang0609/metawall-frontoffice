@@ -67,7 +67,32 @@ export default {
 		uploadFile() { // TODO: 上傳檔案-先放預覽圖
 			const input = this.$refs['upload-file'];
 			this.imagePreview = URL.createObjectURL(input.files[0]);
-			input.files = new DataTransfer().files; // 清空 input，避免重複選同一檔案無法觸發 change 事件
+			// input.files = new DataTransfer().files; // 清空 input，避免重複選同一檔案無法觸發 change 事件
+
+			const data = new FormData();
+			data.append('file', input.files[0]);
+			const fileName = input.files[0].name;
+
+			const config = {
+				method: 'POST',
+				url: 'https://peaceful-citadel-43202.herokuapp.com/files',
+				data: {
+					file: data,
+					file_name: fileName
+				}
+			};
+
+			console.log(config.data);
+
+			this.$http(config)
+				.then(response => {
+					console.log(response);
+					this.isLoading = false;
+				})
+				.catch(error => {
+					this.errorMessage = error.response.data.message;
+					this.isLoading = false;
+				});
 		},
 		submitPost() {
 			this.isLoading = true;
