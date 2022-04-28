@@ -45,7 +45,7 @@
 						</div>
 						<div class="card-body">
 							<p v-html="post.content" class="mb-3"></p>
-							<img :src="getImageUrl(post.picture)" class="w-100 mb-3 border rounded">
+							<img :src="post.image" class="w-100 mb-3 border rounded">
 							<a href="#" class="text-decoration-none" v-if="post.thumbs_up > 0">
 								<i class="bi bi-hand-thumbs-up text-primary fs-5"></i>
 								{{ post.thumbs_up }}

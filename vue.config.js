@@ -3,7 +3,7 @@ const webpack = require('webpack');
 
 module.exports = {
 	publicPath: process.env.NODE_ENV === 'production'
-		? '/metawall-frontoffice/'
+		? '/metawall-frontoffice'
 		: '/',
 	css: {
 		sourceMap: true,

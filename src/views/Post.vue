@@ -16,8 +16,8 @@
 							<input class="form-control d-none" type="file" id="upload-file" accept="image/png, image/jpeg"
 								ref="upload-file" @change="uploadFile()">
 						</div>
-						<div class="image-wrap border rounded overflow-hidden" v-show="imagePreview">
-							<img :src="imagePreview" class="w-100">
+						<div class="image-wrap border rounded overflow-hidden" v-show="info.image">
+							<img :src="info.image" class="w-100">
 						</div>
 						<div v-if="errorMessage" class="text-danger text-center d-block mt-3">
 							<small>{{ errorMessage }}</small>
@@ -54,39 +54,31 @@ export default {
 			info: {
 				name: '王小明',
 				photo: 'https://images.unsplash.com/photo-1593085512500-5d55148d6f0d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80',
-				image: 'https://images.unsplash.com/photo-1531214159280-079b95d26139?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+				image: '',
 				likes: '300',
 				content: ''
 			},
-			imagePreview: '', // 圖片預覽
 			errorMessage: '', // 錯誤訊息
 			isLoading: false
 		};
 	},
 	methods: {
 		uploadFile() { // TODO: 上傳檔案-先放預覽圖
+			this.isLoading = true;
 			const input = this.$refs['upload-file'];
-			this.imagePreview = URL.createObjectURL(input.files[0]);
-			// input.files = new DataTransfer().files; // 清空 input，避免重複選同一檔案無法觸發 change 事件
-
 			const data = new FormData();
-			data.append('file', input.files[0]);
-			const fileName = input.files[0].name;
+			data.append('image', input.files[0]);
+			input.files = new DataTransfer().files; // 清空 input，避免重複選同一檔案無法觸發 change 事件
 
 			const config = {
 				method: 'POST',
 				url: 'https://peaceful-citadel-43202.herokuapp.com/files',
-				data: {
-					file: data,
-					file_name: fileName
-				}
+				data: data
 			};
-
-			console.log(config.data);
 
 			this.$http(config)
 				.then(response => {
-					console.log(response);
+					this.info.image = response.data.data;
 					this.isLoading = false;
 				})
 				.catch(error => {
