@@ -14,10 +14,10 @@
 						<div class="mb-3">
 							<label for="upload-file" class="btn form-label bg-black text-white shadow-none py-1 mb-0">上傳圖片</label>
 							<input class="form-control d-none" type="file" id="upload-file" accept="image/png, image/jpeg"
-								ref="upload-file" @change="uploadFile()">
+								ref="upload-file" @change="getPreviewFile()">
 						</div>
-						<div class="image-wrap border rounded overflow-hidden" v-show="info.image">
-							<img :src="info.image" class="w-100">
+						<div class="image-wrap border rounded overflow-hidden" v-show="imagePreview">
+							<img :src="imagePreview" class="w-100">
 						</div>
 						<div v-if="errorMessage" class="text-danger text-center d-block mt-3">
 							<small>{{ errorMessage }}</small>
@@ -52,60 +52,74 @@ export default {
 	data() {
 		return {
 			info: {
-				name: '王小明',
-				photo: 'https://images.unsplash.com/photo-1593085512500-5d55148d6f0d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80',
+				user: '626bf9120d27c27cf97b5590', // TODO: 先固定id
+				content: '', // 貼文內容
 				image: '',
-				likes: '300',
-				content: ''
+				likes: '300'
 			},
+			imagePreview: '', // 圖片預覽
 			errorMessage: '', // 錯誤訊息
 			isLoading: false
 		};
 	},
 	methods: {
-		uploadFile() { // TODO: 上傳檔案-先放預覽圖
-			this.isLoading = true;
+		getPreviewFile() { // 預覽圖片
 			const input = this.$refs['upload-file'];
-			const data = new FormData();
-			data.append('image', input.files[0]);
-			input.files = new DataTransfer().files; // 清空 input，避免重複選同一檔案無法觸發 change 事件
-
-			const config = {
-				method: 'POST',
-				url: 'https://peaceful-citadel-43202.herokuapp.com/files',
-				data: data
-			};
-
-			this.$http(config)
-				.then(response => {
-					this.info.image = response.data.data;
-					this.isLoading = false;
-				})
-				.catch(error => {
-					this.errorMessage = error.response.data.message;
-					this.isLoading = false;
-				});
+			this.imagePreview = URL.createObjectURL(input.files[0]);
 		},
-		submitPost() {
-			this.isLoading = true;
-			const config = {
-				method: 'POST',
-				url: 'https://peaceful-citadel-43202.herokuapp.com/posts',
-				data: this.info
-			};
-			this.$http(config)
-				.then(response => {
-					if (response.data.status === 'success') {
-						this.$router.push({ name: 'Home' });
-					} else {
-						console.log(response.message);
-					}
-					this.isLoading = false;
-				})
-				.catch(error => {
-					this.errorMessage = error.response.data.message;
-					this.isLoading = false;
-				});
+		uploadFile() { // 上傳檔案到 aws s3
+			return new Promise((resolve, reject) => {
+				const input = this.$refs['upload-file'];
+				const data = new FormData();
+				data.append('image', input.files[0]);
+				input.files = new DataTransfer().files; // 清空 input，避免重複選同一檔案無法觸發 change 事件
+
+				const config = {
+					method: 'POST',
+					url: 'https://peaceful-citadel-43202.herokuapp.com/files',
+					data: data
+				};
+				this.$http(config)
+					.then(response => {
+						this.info.image = response.data.data;
+						resolve();
+					})
+					.catch(error => {
+						reject(error.response.data.message);
+					});
+			});
+		},
+		uploadPost() {
+			return new Promise((resolve, reject) => {
+				const config = {
+					method: 'POST',
+					url: 'https://peaceful-citadel-43202.herokuapp.com/posts',
+					data: this.info
+				};
+				this.$http(config)
+					.then(response => {
+						if (response.data.status === 'success') {
+							this.$router.push({ name: 'Home' });
+						} else {
+							console.log(response.message);
+						}
+						resolve();
+					})
+					.catch(error => {
+						reject(error.response.data.message);
+					});
+			});
+		},
+		async submitPost() {
+			try {
+				this.isLoading = true;
+				await this.uploadFile(); // 先上傳圖片
+				await this.uploadPost(); // 接著上傳po文
+				this.isLoading = false;
+			} catch (error) {
+				this.errorMessage = error;
+				this.isLoading = false;
+			}
 		}
 	}
 };

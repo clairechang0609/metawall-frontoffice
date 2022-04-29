@@ -6,8 +6,9 @@
 				<!-- 搜尋欄 -->
 				<div class="row mb-3">
 					<div class="col-4">
-						<select name="type" class="form-control form-select rounded-0">
-							<option value="" selected>最新貼文</option>
+						<select name="type" class="form-control form-select rounded-0" v-model="search.sort" @change="getPosts()">
+							<option value="desc">最新貼文</option>
+							<option value="asc">最舊貼文</option>
 						</select>
 					</div>
 					<div class="col-8">
@@ -19,7 +20,7 @@
 						</div>
 					</div>
 				</div>
-				<!-- 貼文 -->
+				<!-- 無貼文 -->
 				<template v-if="posts.length === 0">
 					<div class="rounded-card card">
 						<div class="card-header bg-transparent border-bottom">
@@ -32,13 +33,14 @@
 						</div>
 					</div>
 				</template>
+				<!-- 有貼文 -->
 				<template v-else>
 					<div class="rounded-card card mb-3" v-for="post in posts" :key="post.id">
 						<div class="card-header bg-transparent pt-3 border-0">
 							<div class="d-flex align-items-center">
-								<img :src="getUserPhotoUrl(post.headshot)" class="headshot border rounded-circle">
+								<img :src="post.user.photo" class="headshot border rounded-circle">
 								<div class="d-flex flex-column ms-3">
-									<a href="#" class="fw-bold">{{ post.name }}</a>
+									<a href="#" class="fw-bold">{{ post.user.name }}</a>
 									<small class="text-black-50">{{ getDate(post.createdAt) }}</small>
 								</div>
 							</div>
@@ -106,7 +108,8 @@ export default {
 		return {
 			posts: [],
 			search: {
-				content: '' // 關鍵字
+				sort: 'desc', // 排序(預設降冪)
+				keyword: '' // 關鍵字
 			},
 			isLoading: false
 		};
@@ -140,12 +143,6 @@ export default {
 			const date = new Date(createdAt).toLocaleDateString();
 			const time = new Date(createdAt).toTimeString().split(' ')[0];
 			return `${date} ${time}`;
-		},
-		getUserPhotoUrl() {
-			return require('@/assets/img/user-photo.png');
-		},
-		getImageUrl() {
-			return require('@/assets/img/image.png');
 		}
 	}
 };
