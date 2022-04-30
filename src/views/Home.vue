@@ -13,7 +13,7 @@
 					</div>
 					<div class="col-8">
 						<div class="input-group">
-							<input type="text" class="form-control rounded-0" placeholder="搜尋貼文" v-model="search.content" @keyup.enter="getPosts()">
+							<input type="text" class="form-control rounded-0" placeholder="搜尋貼文" v-model="search.keyword" @keyup.enter="getPosts()">
 							<button class="btn btn-primary shadow-none rounded-0 px-3 py-0 fs-5" type="button" @click="getPosts()">
 								<i class="bi bi-search"></i>
 							</button>
