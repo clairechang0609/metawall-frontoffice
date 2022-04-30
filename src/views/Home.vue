@@ -48,9 +48,9 @@
 						<div class="card-body">
 							<p v-html="post.content" class="mb-3"></p>
 							<img :src="post.image" class="w-100 mb-3 border rounded">
-							<a href="#" class="text-decoration-none" v-if="post.thumbs_up > 0">
-								<i class="bi bi-hand-thumbs-up text-primary fs-5"></i>
-								{{ post.thumbs_up }}
+							<a href="#" class="text-decoration-none text-primary" @click.prevent v-if="post.likes > 0">
+								<i class="bi bi-hand-thumbs-up fs-5"></i>
+								{{ post.likes }}
 							</a>
 							<a href="#" class="text-decoration-none text-black-50" v-else>
 								<i class="bi bi-hand-thumbs-up fs-5"></i>
