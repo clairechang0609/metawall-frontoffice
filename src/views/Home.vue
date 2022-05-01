@@ -97,6 +97,7 @@
 </template>
 
 <script>
+const ws = new WebSocket('ws://localhost:3005');
 
 export default {
 	name: 'Home',
@@ -115,6 +116,17 @@ export default {
 		};
 	},
 	mounted() {
+		ws.onmessage = message => {
+			console.log(message);
+			if (typeof message.data === 'object') {
+				const reader = new FileReader();
+				reader.readAsText(message.data, 'utf-8');
+				reader.onload = () => {
+					console.log(reader.result);
+				};
+			}
+		};
+
 		this.getPosts();
 	},
 	methods: {

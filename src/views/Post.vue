@@ -42,6 +42,7 @@
 </template>
 
 <script>
+const ws = new WebSocket('ws://localhost:3005');
 
 export default {
 	name: 'Following',
@@ -103,7 +104,7 @@ export default {
 						} else {
 							console.log(response.message);
 						}
-						resolve();
+						resolve(response.data.data);
 					})
 					.catch(error => {
 						reject(error.response.data.message);
@@ -113,8 +114,11 @@ export default {
 		async submitPost() {
 			try {
 				this.isLoading = true;
-				await this.uploadFile(); // 先上傳圖片
-				await this.uploadPost(); // 接著上傳po文
+				if (this.imagePreview) {
+					await this.uploadFile(); // 先上傳圖片
+				}
+				const response = await this.uploadPost(); // 接著上傳po文
+				await ws.send(JSON.stringify(response)); // 更新貼文
 				this.isLoading = false;
 			} catch (error) {
 				this.errorMessage = error;
