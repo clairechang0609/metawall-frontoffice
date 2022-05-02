@@ -47,7 +47,7 @@
 						</div>
 						<div class="card-body">
 							<p v-html="post.content" class="mb-3"></p>
-							<img :src="post.image" class="w-100 mb-3 border rounded">
+							<img :src="post.image" class="w-100 mb-3 border rounded" v-if="post.image">
 							<a href="#" class="text-decoration-none text-primary" @click.prevent v-if="post.likes > 0">
 								<i class="bi bi-hand-thumbs-up fs-5"></i>
 								{{ post.likes }}
@@ -97,7 +97,7 @@
 </template>
 
 <script>
-const ws = new WebSocket('ws://localhost:3005');
+const ws = new WebSocket('ws://peaceful-citadel-43202.herokuapp.com/websockets');
 
 export default {
 	name: 'Home',
@@ -116,14 +116,11 @@ export default {
 		};
 	},
 	mounted() {
+		ws.onopen = () => console.log('WebSocket 服務已連接');
+		ws.onclose = () => console.log('WebSocket 伺服器關閉');
 		ws.onmessage = message => {
-			console.log(message);
 			if (typeof message.data === 'object') {
-				const reader = new FileReader();
-				reader.readAsText(message.data, 'utf-8');
-				reader.onload = () => {
-					console.log(reader.result);
-				};
+				this.getPosts();
 			}
 		};
 
