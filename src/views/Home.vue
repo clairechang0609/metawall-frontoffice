@@ -1,6 +1,5 @@
 <template>
 	<div class="home-wrap d-flex flex-column">
-		<h2>{{ time }}</h2>
 		<Loading :active.sync="isLoading"></Loading>
 		<div class="row">
 			<div class="col-12 col-md-7">
@@ -98,7 +97,7 @@
 </template>
 
 <script>
-const ws = new WebSocket('ws://localhost:3005/');
+const ws = new WebSocket('ws://localhost:3005');
 
 export default {
 	name: 'Home',
@@ -113,25 +112,19 @@ export default {
 				sort: 'desc', // 排序(預設降冪)
 				keyword: '' // 關鍵字
 			},
-			isLoading: false,
-			time: ''
+			isLoading: false
 		};
 	},
 	mounted() {
-		ws.onopen = () => console.log('WebSocket 服務已連接');
-        ws.onclose = () => console.log('WebSocket 伺服器關閉');
 		ws.onmessage = message => {
 			console.log(message);
-			if (message.data) {
-				this.time = this.getDate(message.data);
+			if (typeof message.data === 'object') {
+				const reader = new FileReader();
+				reader.readAsText(message.data, 'utf-8');
+				reader.onload = () => {
+					console.log(reader.result);
+				};
 			}
-			// if (typeof message.data === 'object') {
-			// 	const reader = new FileReader();
-			// 	reader.readAsText(message.data, 'utf-8');
-			// 	reader.onload = () => {
-			// 		console.log(reader.result);
-			// 	};
-			// }
 		};
 
 		this.getPosts();
