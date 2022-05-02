@@ -97,7 +97,7 @@
 </template>
 
 <script>
-const ws = new WebSocket('ws://peaceful-citadel-43202.herokuapp.com/websockets');
+const ws = new WebSocket('ws://peaceful-citadel-43202.herokuapp.com/websockets/');
 
 export default {
 	name: 'Home',
