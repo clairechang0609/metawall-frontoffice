@@ -42,7 +42,7 @@
 </template>
 
 <script>
-const ws = new WebSocket('ws://localhost:3005');
+const ws = new WebSocket('ws://localhost:3005/');
 
 export default {
 	name: 'Following',
@@ -62,6 +62,10 @@ export default {
 			errorMessage: '', // 錯誤訊息
 			isLoading: false
 		};
+	},
+	mounted() {
+		ws.onopen = () => console.log('WebSocket 服務已連接');
+        ws.onclose = () => console.log('WebSocket 伺服器關閉');
 	},
 	methods: {
 		getPreviewFile() { // 預覽圖片

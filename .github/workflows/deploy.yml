@@ -7,27 +7,23 @@ jobs:
   build:
     name: Build and deploy gh-pages
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [14.x]
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
+    - uses: actions/checkout@v3
+    - name: Set-up Node
       uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: [14.x]
     - name: npm install
       run: |
         npm install
     - name: npm run build
       run: |
         npm run build
-    - name: commit & push
-      run: |
-        cd ./dist
-        git init
-        git config --local user.name $USER_NAME
-        git config --local user.email $USER_EMAIL
-        git add .
-        git commit -m 'deploy'
-        git push --quiet --force git@github.com:ponpon86611/metawall.git master:gh-pages
+    # 透過 crazy-max/ghaction-github-pages@v1 套件，協助佈版至 gh-pages
+    - name: Deploy to Github Pages
+      uses: crazy-max/ghaction-github-pages@v1
+      with:
+        target_branch: gh-pages
+        build_dir: dist
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
