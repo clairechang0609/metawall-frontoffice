@@ -97,7 +97,7 @@
 </template>
 
 <script>
-const ws = new WebSocket('ws://peaceful-citadel-43202.herokuapp.com/websockets/');
+// const ws = new WebSocket('ws://peaceful-citadel-43202.herokuapp.com/websockets');
 
 export default {
 	name: 'Home',
@@ -116,13 +116,13 @@ export default {
 		};
 	},
 	mounted() {
-		ws.onopen = () => console.log('WebSocket 服務已連接');
-		ws.onclose = () => console.log('WebSocket 伺服器關閉');
-		ws.onmessage = message => {
-			if (typeof message.data === 'object') {
-				this.getPosts();
-			}
-		};
+		// ws.onopen = () => console.log('WebSocket 服務已連接');
+		// ws.onclose = () => console.log('WebSocket 伺服器關閉');
+		// ws.onmessage = message => {
+		// 	if (typeof message.data === 'object') {
+		// 		this.getPosts();
+		// 	}
+		// };
 
 		this.getPosts();
 	},
