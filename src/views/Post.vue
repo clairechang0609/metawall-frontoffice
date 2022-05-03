@@ -42,7 +42,7 @@
 </template>
 
 <script>
-// const ws = new WebSocket('ws://peaceful-citadel-43202.herokuapp.com/websockets');
+const ws = new WebSocket('wss://peaceful-citadel-43202.herokuapp.com/websockets');
 
 export default {
 	name: 'Following',
@@ -63,10 +63,10 @@ export default {
 			isLoading: false
 		};
 	},
-	// mounted() {
-	// 	ws.onopen = () => console.log('WebSocket 服務已連接');
-	// 	ws.onclose = () => console.log('WebSocket 伺服器關閉');
-	// },
+	mounted() {
+		ws.onopen = () => console.log('WebSocket 服務已連接');
+		ws.onclose = () => console.log('WebSocket 伺服器關閉');
+	},
 	methods: {
 		getPreviewFile() { // 預覽圖片
 			const input = this.$refs['upload-file'];
@@ -121,9 +121,8 @@ export default {
 				if (this.imagePreview) {
 					await this.uploadFile(); // 先上傳圖片
 				}
-				await this.uploadPost(); // 接著上傳po文
-				// const response = await this.uploadPost(); // 接著上傳po文
-				// await ws.send(JSON.stringify(response)); // 更新貼文
+				const response = await this.uploadPost(); // 接著上傳po文
+				await ws.send(JSON.stringify(response)); // 更新貼文
 				this.isLoading = false;
 			} catch (error) {
 				this.errorMessage = error;
