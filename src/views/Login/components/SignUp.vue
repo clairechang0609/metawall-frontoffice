@@ -3,18 +3,20 @@
 		<h2 class="text-center mb-4">註冊</h2>
 		<form class="mb-4 pt-2">
 			<div class="mb-3 w-100">
-				<input type="name" class="form-control rounded-0" placeholder="暱稱" v-model="info.name">
-				<small v-if="errorMessage.name" class="text-danger d-block mt-1">{{ errorMessage.name }}</small>
+				<input type="name" class="form-control rounded-0" placeholder="暱稱" v-model="info.name" autofocus>
 			</div>
 			<div class="mb-3 w-100">
 				<input type="email" class="form-control rounded-0" placeholder="Email" v-model="info.email">
 				<small v-if="errorMessage.email" class="text-danger d-block mt-1">{{ errorMessage.email }}</small>
 			</div>
 			<div class="mb-3 w-100">
-				<input type="password" class="form-control rounded-0" placeholder="Password" v-model="info.password">
-				<small v-if="errorMessage.password" class="text-danger d-block mt-1">{{ errorMessage.password }}</small>
+				<input type="password" class="form-control rounded-0" placeholder="密碼" v-model="info.password">
+			</div>
+			<div class="mb-3 w-100">
+				<input type="password" class="form-control rounded-0" placeholder="確認密碼" v-model="info.confirmPassword">
 			</div>
 		</form>
+		<small v-if="errorMessage" class="text-danger text-center d-block mt-2 mb-3">{{ errorMessage }}</small>
         <button type="button" class="btn btn-primary w-100" @click="submitSignup()" :disabled="!formIsFinished">註冊</button>
 	</div>
 </template>
@@ -27,24 +29,34 @@ export default {
 			info: {
 				name: '', // 暱稱
 				email: '', // 帳號
-				password: '' // 密碼
+				password: '', // 密碼
+				confirmPassword: '' // 確認密碼
 			},
-			errorMessage: {}
+			errorMessage: ''
 		};
 	},
 	computed: {
 		formIsFinished() {
-			return this.info.email && this.info.password && this.info.name;
+			return this.info.email && this.info.name && this.info.password && this.info.confirmPassword;
 		}
 	},
 	mounted() {},
 	methods: {
 		submitSignup() {
-			this.errorMessage = {
-				name: '暱稱至少 2 個字元以上',
-				email: '帳號已被註冊，請替換新的 Email！',
-				password: '密碼需至少 8 碼以上，並中英混合'
+			const config = {
+				method: 'POST',
+				url: `${process.env.VUE_APP_APIPATH}/users/register`,
+				data: this.info
 			};
+			this.$http(config)
+				.then(response => {
+					this.$emit('current_page', 'login');
+				})
+				.catch(error => {
+					if (error.response) {
+						this.errorMessage = error.response.data.message;
+					}
+				});
 		}
 	}
 };

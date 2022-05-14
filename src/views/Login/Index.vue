@@ -15,7 +15,7 @@
 							:class="{ 'show active': currentPage === item.contentId }"
 							:aria-labelledby="item.tabId">
 							<template v-if="currentPage === item.contentId">
-								<component :is="item.modal"></component>
+								<component :is="item.modal" @current_page="currentPage = $event"></component>
 							</template>
 						</div>
 						<!-- tabs -->

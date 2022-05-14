@@ -6,7 +6,7 @@
 				<input type="email" class="form-control rounded-0" placeholder="Email" v-model="info.email">
 			</div>
 			<div class="mb-3 w-100">
-				<input type="password" class="form-control rounded-0" placeholder="Password" v-model="info.password">
+				<input type="password" class="form-control rounded-0" placeholder="密碼" v-model="info.password">
 			</div>
 		</form>
         <small v-if="errorMessage" class="text-danger d-block mb-3">{{ errorMessage }}</small>
@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
 export default {
 	name: 'NavLogin',
 	data() {
@@ -33,8 +35,27 @@ export default {
 	},
 	mounted() {},
 	methods: {
+		...mapMutations([ 'setInfo', 'setToken' ]),
 		submitLogin() {
-			this.errorMessage = '帳號或密碼錯誤';
+			return new Promise((resolve, reject) => {
+				const config = {
+					method: 'POST',
+					url: `${process.env.VUE_APP_APIPATH}/users/login`,
+					data: this.info
+				};
+				this.$http(config)
+					.then(response => {
+						const data = response.data.data;
+						this.setToken(data.token);
+						this.setInfo(data.profile);
+						this.$router.push({ name: 'Home' });
+					})
+					.catch(error => {
+						if (error.response) {
+							this.errorMessage = error.response.data.message;
+						}
+					});
+			});
 		}
 	}
 };
