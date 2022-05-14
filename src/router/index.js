@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import store from '@store';
 
 Vue.use(VueRouter);
 
@@ -7,12 +8,13 @@ const routes = [
 	{
 		name: 'Login',
 		path: '/login',
-		component: () => import('@/views/Login/Index')
+		component: () => import('@/views/Login/Index'),
+		meta: { requiresAuth: false }
 	},
 	{
 		path: '/',
 		component: () => import('@/views/Index'),
-		props: { posts: [] },
+		meta: { requiresAuth: true },
 		children: [
 			{
 				name: 'Home',
@@ -27,7 +29,7 @@ const routes = [
 			{
 				name: 'Account',
 				path: '/account',
-				component: () => import('@/views/Account')
+				component: () => import('@/views/Account/Index')
 			},
 			{
 				name: 'Post',
@@ -41,7 +43,7 @@ const routes = [
 			},
 			{
 				name: 'PersonalPage',
-				path: '/personal-page',
+				path: '/personal-page/:name',
 				component: () => import('@/views/PersonalPage')
 			}
 		]
@@ -50,6 +52,23 @@ const routes = [
 
 const router = new VueRouter({
 	routes
+});
+
+// 路由跳轉前
+router.beforeEach(async (to, from, next) => {
+	try {
+		// 判斷是否登入
+		const isLogin = store.state.token;
+		// 判斷是否需要驗證
+		const isMatched = to.matched.some(record => record.meta.requiresAuth);
+		if (!isLogin && isMatched) {
+			next({ name: 'Login' });
+		} else {
+			next();
+		}
+	} catch (error) {
+		next({ name: 'Login' });
+	}
 });
 
 export default router;
