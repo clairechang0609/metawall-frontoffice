@@ -8,6 +8,7 @@ import router from './router';
 import App from './App.vue';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
+import store from './store';
 
 window.jQuery = $;
 window.$ = $;
@@ -16,6 +17,7 @@ Vue.use(VueAxios, axios);
 Vue.component('Loading', Loading);
 
 new Vue({
+	store,
 	router,
 	render: (h) => h(App)
 }).$mount('#app');
