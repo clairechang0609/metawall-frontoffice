@@ -9,12 +9,15 @@
 			<div class="nav-item dropdown">
 				<div class="nav-link dropdown-toggle d-flex align-items-center pe-0"
 					id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-					<img src="~@/assets/img/user-photo.png" alt="head" class="head d-block me-2 border rounded-circle">
+					<img :src="info.photo" alt="head" class="head d-block me-2 border rounded-circle" v-if="info.photo">
+					<div class="head rounded-circle border me-2 d-flex align-items-center justify-content-center flex-shrink-0 text-black" v-else>
+						<i class="bi bi-person fs-6"></i>
+					</div>
 					<a href="#" class="border-bottom p-0 text-black text-decoration-none">Member</a>
 				</div>
 				<ul class="dropdown-menu rounded-0 p-0 text-center" aria-labelledby="navbarDropdown">
 					<li>
-						<router-link :to="{ name: 'PersonalPage' }" class="dropdown-item text-decoration-none py-2 border-bottom">
+						<router-link :to="{ name: 'PersonalPage', params: { name: info.name } }" class="dropdown-item text-decoration-none py-2 border-bottom">
 							我的貼文牆
 						</router-link>
 					</li>
@@ -24,9 +27,9 @@
 						</router-link>
 					</li>
 					<li>
-						<router-link :to="{ name: 'Login' }" class="dropdown-item text-decoration-none py-2">
+						<button type="button" class="dropdown-item text-decoration-none py-2" @click="logout()">
 							登出
-						</router-link>
+						</button>
 					</li>
 				</ul>
 			</div>
@@ -35,14 +38,27 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex';
+
 export default {
 	name: 'Navbar',
 	data() {
 		return {};
 	},
+	computed: {
+		...mapState({
+			info: state => state.info
+		})
+	},
 	mounted() {
 	},
-	methods: {}
+	methods: {
+		...mapMutations([ 'setInfo', 'setToken' ]),
+		logout() {
+			this.setToken();
+			this.$router.push({ name: 'Login' });
+		}
+	}
 };
 </script>
 
@@ -59,6 +75,8 @@ export default {
 			}
 			.head {
 				width: 30px;
+				height: 30px;
+				background-color: #E2EDFA;
 			}
 		}
 		.logo {

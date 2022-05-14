@@ -38,15 +38,20 @@
 					<div class="rounded-card card mb-3" v-for="post in posts" :key="post.id">
 						<div class="card-header bg-transparent pt-3 border-0">
 							<div class="d-flex align-items-center">
-								<img :src="post.user.photo" class="headshot border rounded-circle">
+								<img :src="post.user.photo" class="headshot border rounded-circle" v-if="post.user.photo">
+								<div class="info-icon rounded-circle border d-flex align-items-center justify-content-center" v-else>
+									<i class="bi bi-person fs-5"></i>
+								</div>
 								<div class="d-flex flex-column ms-3">
-									<a href="#" class="fw-bold">{{ post.user.name }}</a>
+									<router-link :to="{ name: 'PersonalPage', params: { name: post.user.name } }" class="fw-bold">
+										{{ post.user.name }}
+									</router-link>
 									<small class="text-black-50">{{ getDate(post.createdAt) }}</small>
 								</div>
 							</div>
 						</div>
 						<div class="card-body">
-							<p v-html="post.content" class="mb-3"></p>
+							<p v-html="showContent(post.content)" class="mb-3"></p>
 							<img :src="post.image" class="w-100 mb-3 border rounded" v-if="post.image">
 							<a href="#" class="text-decoration-none text-primary" @click.prevent v-if="post.likes > 0">
 								<i class="bi bi-hand-thumbs-up fs-5"></i>
@@ -57,7 +62,10 @@
 								成為第一個按讚的朋友
 							</a>
 							<div class="d-flex align-items-center mt-3">
-								<img src="~@/assets/img/user-photo.png" class="headshot me-2 border rounded-circle">
+								<img :src="info.photo" class="headshot me-2 border rounded-circle flex-shrink-0" v-if="info.photo">
+								<div class="info-icon rounded-circle border me-2 d-flex align-items-center justify-content-center flex-shrink-0" v-else>
+									<i class="bi bi-person fs-5"></i>
+								</div>
 								<div class="input-group">
 									<input type="text" class="form-control rounded-0" placeholder="留言..." aria-describedby="search">
 									<button class="btn btn-primary shadow-none rounded-0 px-4" type="button">
@@ -97,6 +105,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 const ws = new WebSocket('wss://peaceful-citadel-43202.herokuapp.com/websockets');
 
 export default {
@@ -115,12 +124,27 @@ export default {
 			isLoading: false
 		};
 	},
+	computed: {
+		...mapState({
+			info: state => state.info
+		})
+	},
 	mounted() {
 		ws.onopen = () => console.log('WebSocket 服務已連接');
 		ws.onclose = () => console.log('WebSocket 伺服器關閉');
 		ws.onmessage = message => {
 			if (typeof message.data === 'object') {
-				this.getPosts();
+				const reader = new FileReader();
+				reader.readAsText(message.data, 'utf-8');
+				reader.onload = () => {
+					const data = JSON.parse(reader.result);
+					console.log(data);
+					if (this.search.sort === 'desc') {
+						this.posts.unshift(data);
+					} else {
+						this.posts.push(data);
+					}
+				};
 			}
 		};
 
@@ -131,22 +155,21 @@ export default {
 			this.isLoading = true;
 			const config = {
 				method: 'GET',
-				url: 'https://peaceful-citadel-43202.herokuapp.com/posts',
+				url: `${process.env.VUE_APP_APIPATH}/posts`,
 				params: this.search
 			};
 			this.$http(config)
 				.then(response => {
-					if (response.data.status === 'success') {
-						this.posts = response.data.data;
-					} else {
-						console.log(response.data.message);
-					}
+					this.posts = response.data.data;
 					this.isLoading = false;
 				})
 				.catch(error => {
 					console.log(error);
 					this.isLoading = false;
 				});
+		},
+		showContent(content) {
+			return content.replace(/\n/i, '</br>');
 		},
 		getDate(createdAt) { // 取得本地時間
 			const date = new Date(createdAt).toLocaleDateString();
@@ -171,18 +194,10 @@ export default {
 			height: 9px;
 			border: 1px solid $gray-700;
 		}
-		.sidebar-card {
-			.link:hover {
-				.info-icon {
-					background-color: $primary;
-					color: white;
-				}
-			}
-			.info-icon {
-				width: 50px;
-				height: 50px;
-				background-color: #E2EDFA;
-			}
+		.info-icon {
+			width: 50px;
+			height: 50px;
+			background-color: #E2EDFA;
 		}
 		.message-card {
 			background-color: rgba($gray-300, 0.3);

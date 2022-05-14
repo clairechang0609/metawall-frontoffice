@@ -42,10 +42,11 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 const ws = new WebSocket('wss://peaceful-citadel-43202.herokuapp.com/websockets');
 
 export default {
-	name: 'Following',
+	name: 'Post',
 	components: {
 		Sidebar: () => import('../components/Sidebar.vue'),
 		SidebarSm: () => import('../components/SidebarSm.vue')
@@ -53,15 +54,18 @@ export default {
 	data() {
 		return {
 			info: {
-				user: '626bf9120d27c27cf97b5590', // TODO: 先固定id
 				content: '', // 貼文內容
-				image: '',
-				likes: '300'
+				image: ''
 			},
 			imagePreview: '', // 圖片預覽
 			errorMessage: '', // 錯誤訊息
 			isLoading: false
 		};
+	},
+	computed: {
+		...mapState({
+			token: state => state.token
+		})
 	},
 	mounted() {
 		ws.onopen = () => console.log('WebSocket 服務已連接');
@@ -81,7 +85,10 @@ export default {
 
 				const config = {
 					method: 'POST',
-					url: 'https://peaceful-citadel-43202.herokuapp.com/files',
+					url: `${process.env.VUE_APP_APIPATH}/files`,
+					headers: {
+						authorization: `Bearer ${this.token}`
+					},
 					data: data
 				};
 				this.$http(config)
@@ -98,16 +105,15 @@ export default {
 			return new Promise((resolve, reject) => {
 				const config = {
 					method: 'POST',
-					url: 'https://peaceful-citadel-43202.herokuapp.com/posts',
+					url: `${process.env.VUE_APP_APIPATH}/posts`,
+					headers: {
+						authorization: `Bearer ${this.token}`
+					},
 					data: this.info
 				};
 				this.$http(config)
 					.then(response => {
-						if (response.data.status === 'success') {
-							this.$router.push({ name: 'Home' });
-						} else {
-							console.log(response.message);
-						}
+						this.$router.push({ name: 'Home' });
 						resolve(response.data.data);
 					})
 					.catch(error => {

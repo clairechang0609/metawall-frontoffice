@@ -15,7 +15,7 @@
 								<i class="bi bi-hand-thumbs-up text-primary fs-5"></i>
 								<small class="text-black fw-bold">取消</small>
 							</a>
-							<router-link :to="{ name: 'PersonalPage' }" class="d-flex flex-column align-items-center">
+							<router-link :to="{ name: 'PersonalPage', params: { name: 111 } }" class="d-flex flex-column align-items-center">
 								<i class="bi bi-arrow-right-circle text-black fs-5"></i>
 								<small class="text-black fw-bold">查看</small>
 							</router-link>
@@ -34,9 +34,8 @@
 </template>
 
 <script>
-
 export default {
-	name: 'Following',
+	name: 'ThumbsUp',
 	components: {
 		Sidebar: () => import('../components/Sidebar.vue'),
 		SidebarSm: () => import('../components/SidebarSm.vue')
