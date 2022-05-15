@@ -126,6 +126,7 @@ export default {
 	},
 	computed: {
 		...mapState({
+			token: state => state.token,
 			info: state => state.info
 		})
 	},
@@ -146,6 +147,9 @@ export default {
 			const config = {
 				method: 'GET',
 				url: `${process.env.VUE_APP_APIPATH}/api/v1/posts`,
+				headers: {
+					authorization: `Bearer ${this.token}`
+				},
 				params: this.search
 			};
 			this.$http(config)

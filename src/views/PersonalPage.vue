@@ -77,6 +77,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
 	name: 'PersonalPage',
 	components: {
@@ -104,6 +106,11 @@ export default {
 			this.getUserPosts();
 		}
 	},
+	computed: {
+		...mapState({
+			token: state => state.token
+		})
+	},
 	mounted() {
 		this.getUserInfo();
 		this.getUserPosts();
@@ -112,7 +119,10 @@ export default {
 		getUserInfo() {
 			const config = {
 				method: 'GET',
-				url: `${process.env.VUE_APP_APIPATH}/api/v1/users/profile/${this.$route.params.name}`
+				url: `${process.env.VUE_APP_APIPATH}/api/v1/users/profile/${this.$route.params.name}`,
+				headers: {
+					authorization: `Bearer ${this.token}`
+				}
 			};
 			this.$http(config)
 				.then(response => {
@@ -127,6 +137,9 @@ export default {
 			const config = {
 				method: 'GET',
 				url: `${process.env.VUE_APP_APIPATH}/api/v1/posts`,
+				headers: {
+					authorization: `Bearer ${this.token}`
+				},
 				params: {
 					...this.search,
 					name: this.$route.params.name
