@@ -70,7 +70,7 @@ export default {
 		getProfile() {
 			const config = {
 				method: 'GET',
-				url: `${process.env.VUE_APP_APIPATH}/users/profile`,
+				url: `${process.env.VUE_APP_APIPATH}/api/v1/users/profile`,
 				headers: {
 					authorization: `Bearer ${this.token}`
 				}
@@ -102,7 +102,7 @@ export default {
 
 				const config = {
 					method: 'POST',
-					url: `${process.env.VUE_APP_APIPATH}/files`,
+					url: `${process.env.VUE_APP_APIPATH}/api/v1/files`,
 					headers: {
 						authorization: `Bearer ${this.token}`
 					},
@@ -121,7 +121,7 @@ export default {
 			return new Promise((resolve, reject) => {
 				const config = {
 					method: 'PATCH',
-					url: `${process.env.VUE_APP_APIPATH}/users/profile`,
+					url: `${process.env.VUE_APP_APIPATH}/api/v1/users/profile`,
 					headers: {
 						authorization: `Bearer ${this.token}`
 					},
@@ -146,7 +146,6 @@ export default {
 				const response = await this.updateProfile(); // 更新個人資訊
 				this.setProfile(response);
 				this.setInfo({ // 更新 vuex
-					_id: response._id,
 					name: response.name,
 					photo: response.photo
 				});

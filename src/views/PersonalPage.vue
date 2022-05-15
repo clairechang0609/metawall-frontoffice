@@ -112,7 +112,7 @@ export default {
 		getUserInfo() {
 			const config = {
 				method: 'GET',
-				url: `${process.env.VUE_APP_APIPATH}/users/profile/${this.$route.params.name}`
+				url: `${process.env.VUE_APP_APIPATH}/api/v1/users/profile/${this.$route.params.name}`
 			};
 			this.$http(config)
 				.then(response => {
@@ -126,7 +126,7 @@ export default {
 			this.isLoading = true;
 			const config = {
 				method: 'GET',
-				url: `${process.env.VUE_APP_APIPATH}/posts`,
+				url: `${process.env.VUE_APP_APIPATH}/api/v1/posts`,
 				params: {
 					...this.search,
 					name: this.$route.params.name

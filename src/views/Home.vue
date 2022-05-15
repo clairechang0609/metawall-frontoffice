@@ -134,17 +134,7 @@ export default {
 		ws.onclose = () => console.log('WebSocket 伺服器關閉');
 		ws.onmessage = message => {
 			if (typeof message.data === 'object') {
-				const reader = new FileReader();
-				reader.readAsText(message.data, 'utf-8');
-				reader.onload = () => {
-					const data = JSON.parse(reader.result);
-					console.log(data);
-					if (this.search.sort === 'desc') {
-						this.posts.unshift(data);
-					} else {
-						this.posts.push(data);
-					}
-				};
+				this.getPosts();
 			}
 		};
 
@@ -155,7 +145,7 @@ export default {
 			this.isLoading = true;
 			const config = {
 				method: 'GET',
-				url: `${process.env.VUE_APP_APIPATH}/posts`,
+				url: `${process.env.VUE_APP_APIPATH}/api/v1/posts`,
 				params: this.search
 			};
 			this.$http(config)

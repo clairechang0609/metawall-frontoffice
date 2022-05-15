@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import $ from 'jquery';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
@@ -9,9 +8,6 @@ import App from './App.vue';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import store from './store';
-
-window.jQuery = $;
-window.$ = $;
 
 Vue.use(VueAxios, axios);
 Vue.component('Loading', Loading);
