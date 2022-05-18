@@ -1,6 +1,5 @@
 <template>
 	<div class="personal-wrap d-flex flex-column">
-		<Loading :active.sync="isLoading"></Loading>
 		<div class="row">
 			<div class="col-12 col-md-7">
 				<div class="personal-card card mb-4 overflow-hidden">
@@ -45,26 +44,8 @@
 					</div>
 				</div>
 				<!-- 貼文 -->
-				<div class="rounded-card card mb-3" v-for="post in posts" :key="post.id">
-					<div class="card-header bg-transparent pt-3 border-0">
-						<div class="d-flex align-items-center">
-							<img :src="post.user.photo" class="headshot rounded-circle border" v-if="post.user.photo">
-							<div class="headshot rounded-circle border d-flex align-items-center justify-content-center" v-else>
-								<i class="bi bi-person fs-5"></i>
-							</div>
-							<div class="d-flex flex-column ms-3">
-								<router-link :to="{ name: 'PersonalPage', params: { name: post.user.name } }" class="fw-bold">
-									{{ post.user.name }}
-								</router-link>
-								<small class="text-black-50">{{ getDate(post.createdAt) }}</small>
-							</div>
-						</div>
-					</div>
-					<div class="card-body">
-						<p v-html="showContent(post.content)" class="mb-3"></p>
-						<img :src="post.image" class="w-100 mb-3 border rounded" v-if="post.image">
-					</div>
-				</div>
+				<PostCard v-for="post in posts" :key="post.id" :is-empty="posts.length === 0" :is-loading="isLoading"
+					:post="post" @update-post="getUserPosts()"></PostCard>
 			</div>
 			<div class="col-12 col-md-5 d-none d-md-block">
 				<Sidebar></Sidebar>
@@ -83,7 +64,8 @@ export default {
 	name: 'PersonalPage',
 	components: {
 		Sidebar: () => import('../components/Sidebar.vue'),
-		SidebarSm: () => import('../components/SidebarSm.vue')
+		SidebarSm: () => import('../components/SidebarSm.vue'),
+		PostCard: () => import('../components/PostCard.vue')
 	},
 	data() {
 		return {
@@ -175,11 +157,6 @@ export default {
 		.photo {
 			width: 80px;
 			height: 80px;
-			background-color: #E2EDFA;
-		}
-		.headshot {
-			width: 50px;
-			height: 50px;
 			background-color: #E2EDFA;
 		}
 	}
