@@ -21,14 +21,14 @@
 		<!-- 貼文 -->
 		<PostCard v-for="post in posts" :key="post.id" :is-empty="posts.length === 0"
 			:is-loading="isLoading" :post="post"
-			@update-post="updatePost" @edit-message="editMessage"
-			@add-message="addMessage"></PostCard>
+			@edit-post-likes="editLikes" @edit-comment-likes="editCommentLikes"
+			@add-comment="addComment"></PostCard>
 	</div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-const ws = new WebSocket('wss://peaceful-citadel-43202.herokuapp.com/websockets');
+// const ws = new WebSocket('wss://peaceful-citadel-43202.herokuapp.com/websockets');
 
 export default {
 	name: 'Home',
@@ -51,13 +51,13 @@ export default {
 		})
 	},
 	mounted() {
-		ws.onopen = () => console.log('WebSocket 服務已連接');
-		ws.onclose = () => console.log('WebSocket 伺服器關閉');
-		ws.onmessage = message => {
-			if (typeof message.data === 'object') {
-				this.getPosts();
-			}
-		};
+		// ws.onopen = () => console.log('WebSocket 服務已連接');
+		// ws.onclose = () => console.log('WebSocket 伺服器關閉');
+		// ws.onmessage = message => {
+		// 	if (typeof message.data === 'object') {
+		// 		this.getPosts();
+		// 	}
+		// };
 
 		this.getPosts();
 	},
@@ -82,18 +82,18 @@ export default {
 					this.isLoading = false;
 				});
 		},
-		updatePost(data) {
-			const findPost = this.posts.find(item => item._id === data._id);
-			findPost.likes = data.likes;
+		editLikes(post) {
+			const findPost = this.posts.find(item => item._id === post._id);
+			findPost.likes = post.likes;
 		},
-		editMessage(data) {
-			const findPost = this.posts.find(item => item._id === data._id);
-			const findMessage = findPost.messages.find(item => item._id === data.message._id);
-			findMessage.likes = data.message.likes;
+		editCommentLikes(comment) {
+			const findPost = this.posts.find(item => item._id === comment.post);
+			const findComment = findPost.comments.find(item => item._id === comment._id);
+			findComment.likes = comment.likes;
 		},
-		addMessage(data) {
-			const findPost = this.posts.find(item => item._id === data._id);
-			findPost.messages = data.messages;
+		addComment(post) {
+			const findPost = this.posts.find(item => item._id === post._id);
+			findPost.comments = post.comments;
 		}
 	}
 };

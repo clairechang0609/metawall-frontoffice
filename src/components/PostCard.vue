@@ -46,35 +46,35 @@
 					<i class="bi bi-person fs-5"></i>
 				</div>
 				<div class="input-group">
-					<input type="text" class="form-control rounded-0" placeholder="留言..." v-model="message" @keyup.enter="leaveMessage()">
-					<button class="btn btn-primary shadow-none rounded-0 px-4" type="button" @click="leaveMessage()">
+					<input type="text" class="form-control rounded-0" placeholder="留言..." v-model="content" @keyup.enter="sendComment()">
+					<button class="btn btn-primary shadow-none rounded-0 px-4" type="button" @click="sendComment()">
 						留言
 					</button>
 				</div>
 			</div>
 			<!-- 用戶回覆 -->
-			<ul v-if="post.messages.length > 0" class="mt-3">
-				<li v-for="message in post.messages" :key="message._id" class="mb-3">
-					<div class="message-card card border-0">
+			<ul v-if="post.comments.length > 0" class="mt-3">
+				<li v-for="comment in post.comments" :key="comment._id" class="mb-3">
+					<div class="comment-card card border-0">
 						<div class="card-body">
 							<div class="d-flex">
-								<img :src="message.user.photo" class="photo border rounded-circle flex-shrink-0" v-if="message.user.photo">
+								<img :src="comment.user.photo" class="photo border rounded-circle flex-shrink-0" v-if="comment.user.photo">
 								<div class="photo rounded-circle border d-flex align-items-center justify-content-center flex-shrink-0" v-else>
 									<i class="bi bi-person fs-5"></i>
 								</div>
 								<div class="w-100 d-flex flex-column ms-3 pt-2">
-									<router-link :to="{ name: 'PersonalPage', params: { id: message.user._id } }" class="fw-bold">
-										{{ message.user.name }}
+									<router-link :to="{ name: 'PersonalPage', params: { id: comment.user._id } }" class="fw-bold">
+										{{ comment.user.name }}
 									</router-link>
-									<small class="text-black-50">{{ getDate(message.createdAt) }}</small>
+									<small class="text-black-50">{{ getDate(comment.createdAt) }}</small>
 									<div class="w-100 d-flex align-items-end mt-2">
-										<p v-html="showContent(message.content)" class="me-3"></p>
+										<p v-html="showContent(comment.content)" class="me-3"></p>
 										<div class="flex-shrink-0 ms-auto">
-											<a href="#" class="text-decoration-none text-primary" @click.prevent="toggleMessageLike(message._id)" v-if="message.likes.length">
+											<a href="#" class="text-decoration-none text-primary" @click.prevent="toggleCommentLike(comment._id)" v-if="comment.likes.length">
 												<i class="bi bi-hand-thumbs-up fs-6"></i>
-												{{ message.likes.length }}
+												{{ comment.likes.length }}
 											</a>
-											<a href="#" class="text-decoration-none text-black-50" @click.prevent="toggleMessageLike(message._id)" v-else>
+											<a href="#" class="text-decoration-none text-black-50" @click.prevent="toggleCommentLike(comment._id)" v-else>
 												<i class="bi bi-hand-thumbs-up fs-6"></i>
 											</a>
 										</div>
@@ -110,7 +110,7 @@ export default {
 	},
 	data() {
 		return {
-			message: ''
+			content: '' // 留言內容
 		};
 	},
 	computed: {
@@ -138,51 +138,46 @@ export default {
 			};
 			this.$http(config)
 				.then(response => {
-					this.$emit('update-post', response.data.data);
+					this.$emit('edit-post-likes', response.data.data);
 				})
 				.catch(error => {
 					console.log(error);
 				});
 		},
-		toggleMessageLike(id) {
+		toggleCommentLike(id) {
 			const config = {
 				method: 'PATCH',
-				url: `${process.env.VUE_APP_APIPATH}/api/v1/messages/${id}/likes`,
+				url: `${process.env.VUE_APP_APIPATH}/api/v1/comments/${id}/likes`,
 				headers: {
 					authorization: `Bearer ${this.token}`
 				}
 			};
 			this.$http(config)
 				.then(response => {
-					const post = {
-						_id: this.post._id,
-						message: response.data.data
-					};
-					this.$emit('edit-message', post);
+					this.$emit('edit-comment-likes', response.data.data);
 				})
 				.catch(error => {
 					console.log(error);
 				});
 		},
-		leaveMessage() {
-			if (!this.message) {
+		sendComment() {
+			if (!this.content) {
 				return false;
 			}
 			const config = {
 				method: 'POST',
-				url: `${process.env.VUE_APP_APIPATH}/api/v1/messages`,
+				url: `${process.env.VUE_APP_APIPATH}/api/v1/posts/${this.post._id}/comments`,
 				headers: {
 					authorization: `Bearer ${this.token}`
 				},
 				data: {
-					postId: this.post._id,
-					content: this.message
+					content: this.content
 				}
 			};
 			this.$http(config)
 				.then(response => {
-					this.message = '';
-					this.$emit('add-message', response.data.data);
+					this.content = '';
+					this.$emit('add-comment', response.data.data);
 				})
 				.catch(error => {
 					console.log(error);
@@ -201,7 +196,7 @@ export default {
 	small {
 		font-size: 12px;
 	}
-	.message-card {
+	.comment-card {
 		background-color: rgba($gray-300, 0.5);
 	}
 	.browser-icon {

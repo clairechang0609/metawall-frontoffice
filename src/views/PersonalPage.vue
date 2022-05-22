@@ -13,10 +13,12 @@
 					<small>{{ info.followers }} 人追蹤</small>
 				</div>
 				<template v-if="!isSelf">
-					<button type="button" class="btn btn-secondary ms-auto me-3 py-1" @click="toggleFollow('POST')" v-if="!info.isFollow">
+					<button type="button" class="btn btn-secondary ms-auto me-3 py-1"
+						@click="toggleFollow('POST')" v-if="!info.isFollow">
 						追蹤
 					</button>
-					<button type="button" class="btn btn-light ms-auto me-3 py-1" @click="toggleFollow('DELETE')" v-else>
+					<button type="button" class="btn btn-light ms-auto me-3 py-1"
+						@click="toggleFollow('DELETE')" v-else>
 						取消追蹤
 					</button>
 				</template>
@@ -41,8 +43,9 @@
 		</div>
 		<!-- 貼文 -->
 		<PostCard v-for="post in posts" :key="post.id" :is-empty="posts.length === 0"
-			:is-loading="isLoading" :post="post" @update-post="updatePost"
-			@edit-message="editMessage" @add-message="addMessage"></PostCard>
+			:is-loading="isLoading" :post="post"
+			@edit-post-likes="editLikes" @edit-comment-likes="editCommentLikes"
+			@add-comment="addComment"></PostCard>
 	</div>
 </template>
 
@@ -133,7 +136,7 @@ export default {
 		toggleFollow(method) {
 			const config = {
 				method: method,
-				url: `${process.env.VUE_APP_APIPATH}/api/v1/follows/${this.$route.params.id}`,
+				url: `${process.env.VUE_APP_APIPATH}/api/v1/users/${this.$route.params.id}/follow`,
 				headers: {
 					authorization: `Bearer ${this.token}`
 				}
@@ -146,18 +149,18 @@ export default {
 					console.log(error);
 				});
 		},
-		updatePost(data) {
-			const findPost = this.posts.find(item => item._id === data._id);
-			findPost.likes = data.likes;
+		editLikes(post) {
+			const findPost = this.posts.find(item => item._id === post._id);
+			findPost.likes = post.likes;
 		},
-		editMessage(data) {
-			const findPost = this.posts.find(item => item._id === data._id);
-			const findMessage = findPost.messages.find(item => item._id === data.message._id);
-			findMessage.likes = data.message.likes;
+		editCommentLikes(comment) {
+			const findPost = this.posts.find(item => item._id === comment.post);
+			const findComment = findPost.comments.find(item => item._id === comment._id);
+			findComment.likes = comment.likes;
 		},
-		addMessage(data) {
-			const findPost = this.posts.find(item => item._id === data._id);
-			findPost.messages = data.messages;
+		addComment(post) {
+			const findPost = this.posts.find(item => item._id === post._id);
+			findPost.comments = post.comments;
 		}
 	}
 };

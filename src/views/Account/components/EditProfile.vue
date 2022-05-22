@@ -145,7 +145,11 @@ export default {
 				}
 				const response = await this.updateProfile(); // 更新個人資訊
 				this.setProfile(response);
-				this.setInfo(response);
+				this.setInfo({
+					_id: response._id,
+					name: response.name,
+					photo: response.photo
+				});
 				this.errorMessage = '';
 				this.isLoading = false;
 			} catch (error) {

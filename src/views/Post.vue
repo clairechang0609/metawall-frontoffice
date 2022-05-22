@@ -33,7 +33,7 @@
 
 <script>
 import { mapState } from 'vuex';
-const ws = new WebSocket('wss://peaceful-citadel-43202.herokuapp.com/websockets');
+// const ws = new WebSocket('wss://peaceful-citadel-43202.herokuapp.com/websockets');
 
 export default {
 	name: 'Post',
@@ -54,8 +54,8 @@ export default {
 		})
 	},
 	mounted() {
-		ws.onopen = () => console.log('WebSocket 服務已連接');
-		ws.onclose = () => console.log('WebSocket 伺服器關閉');
+		// ws.onopen = () => console.log('WebSocket 服務已連接');
+		// ws.onclose = () => console.log('WebSocket 伺服器關閉');
 	},
 	methods: {
 		getPreviewFile() { // 預覽圖片
@@ -113,8 +113,9 @@ export default {
 				if (this.imagePreview) {
 					await this.uploadFile(); // 先上傳圖片
 				}
-				const response = await this.uploadPost(); // 接著上傳po文
-				await ws.send(JSON.stringify(response)); // 更新貼文
+				await this.uploadPost(); // 接著上傳po文
+				// const response = await this.uploadPost(); // 接著上傳po文
+				// await ws.send(JSON.stringify(response)); // 更新貼文
 				this.isLoading = false;
 			} catch (error) {
 				this.errorMessage = error;
