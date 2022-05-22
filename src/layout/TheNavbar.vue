@@ -17,7 +17,7 @@
 				</div>
 				<ul class="dropdown-menu rounded-0 p-0 text-center" aria-labelledby="navbarDropdown">
 					<li>
-						<router-link :to="{ name: 'PersonalPage', params: { name: info.name } }" class="dropdown-item text-decoration-none py-2 border-bottom">
+						<router-link :to="{ name: 'PersonalPage', params: { id: info._id } }" class="dropdown-item text-decoration-none py-2 border-bottom">
 							我的貼文牆
 						</router-link>
 					</li>

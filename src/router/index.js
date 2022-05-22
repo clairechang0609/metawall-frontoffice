@@ -39,14 +39,19 @@ const routes = [
 			{
 				name: 'ThumbsUp',
 				path: '/thumbs-up',
-				component: () => import('@/views/ThumbsUp')
+				component: () => import('@/views/ThumbsUp/Index')
 			},
 			{
 				name: 'PersonalPage',
-				path: '/personal-page/:name',
+				path: '/personal-page/:id',
 				component: () => import('@/views/PersonalPage')
 			}
 		]
+	},
+	{
+		name: 'NotFound',
+		path: '/:pathMatch(.*)*',
+		component: () => import('@/views/Wrong')
 	}
 ];
 

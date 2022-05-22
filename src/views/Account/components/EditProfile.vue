@@ -145,10 +145,7 @@ export default {
 				}
 				const response = await this.updateProfile(); // 更新個人資訊
 				this.setProfile(response);
-				this.setInfo({ // 更新 vuex
-					name: response.name,
-					photo: response.photo
-				});
+				this.setInfo(response);
 				this.errorMessage = '';
 				this.isLoading = false;
 			} catch (error) {

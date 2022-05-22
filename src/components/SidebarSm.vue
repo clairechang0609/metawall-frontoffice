@@ -3,7 +3,7 @@
 		<div class="py-2 px-5">
 			<ul class="d-flex justify-content-between">
 				<li>
-					<router-link :to="{ name: 'PersonalPage', params: { name: info.name } }"
+					<router-link :to="{ name: 'PersonalPage', params: { id: info._id } }"
 						class="btn bg-white rounded-circle text-decoration-none shadow-none
 							d-flex align-items-center justify-content-center p-0">
 						<i class="bi bi-house-door fs-5"></i>

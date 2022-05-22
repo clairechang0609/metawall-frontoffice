@@ -1,5 +1,5 @@
 <template>
-	<div class="text-center">
+	<div class="text-center" @keyup.enter="submitLogin()">
         <h2 class="mb-4">到元宇宙展開全新社交圈</h2>
 		<form class="mb-4 pt-2">
 			<div class="mb-3 w-100">

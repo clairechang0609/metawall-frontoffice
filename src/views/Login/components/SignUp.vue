@@ -1,9 +1,9 @@
 <template>
-	<div>
+	<div @keyup.enter="submitSignup()">
 		<h2 class="text-center mb-4">註冊</h2>
 		<form class="mb-4 pt-2">
 			<div class="mb-3 w-100">
-				<input type="name" class="form-control rounded-0" placeholder="暱稱" v-model="info.name" autofocus>
+				<input type="name" class="form-control rounded-0" placeholder="暱稱" v-model="info.name" @input.stop autofocus>
 			</div>
 			<div class="mb-3 w-100">
 				<input type="email" class="form-control rounded-0" placeholder="Email" v-model="info.email">

@@ -1,35 +1,28 @@
 <template>
-	<div class="home-wrap d-flex flex-column">
-		<div class="row">
-			<div class="col-12 col-md-7">
-				<!-- 搜尋欄 -->
-				<div class="row mb-3">
-					<div class="col-4">
-						<select name="type" class="form-control form-select rounded-0" v-model="search.sort" @change="getPosts()">
-							<option value="desc">最新貼文</option>
-							<option value="asc">最舊貼文</option>
-						</select>
-					</div>
-					<div class="col-8">
-						<div class="input-group">
-							<input type="text" class="form-control rounded-0" placeholder="搜尋貼文" v-model="search.keyword" @keyup.enter="getPosts()">
-							<button class="btn btn-primary shadow-none rounded-0 px-3 py-0 fs-5" type="button" @click="getPosts()">
-								<i class="bi bi-search"></i>
-							</button>
-						</div>
-					</div>
+	<div class="home-wrap">
+		<!-- 搜尋欄 -->
+		<div class="row mb-3">
+			<div class="col-4">
+				<select name="type" class="form-control form-select rounded-0" v-model="search.sort" @change="getPosts()">
+					<option value="desc">最新貼文</option>
+					<option value="asc">最舊貼文</option>
+				</select>
+			</div>
+			<div class="col-8">
+				<div class="input-group">
+					<input type="text" class="form-control rounded-0" placeholder="搜尋貼文"
+						v-model="search.keyword" @keyup.enter="getPosts()">
+					<button class="btn btn-primary shadow-none rounded-0 px-3 py-0 fs-5" type="button" @click="getPosts()">
+						<i class="bi bi-search"></i>
+					</button>
 				</div>
-				<!-- 貼文 -->
-				<PostCard v-for="post in posts" :key="post.id" :is-empty="posts.length === 0" :is-loading="isLoading"
-					:post="post" @update-post="getPosts()"></PostCard>
-			</div>
-			<div class="col-12 col-md-5 d-none d-md-block">
-				<Sidebar></Sidebar>
-			</div>
-			<div class="d-md-none">
-				<SidebarSm></SidebarSm>
 			</div>
 		</div>
+		<!-- 貼文 -->
+		<PostCard v-for="post in posts" :key="post.id" :is-empty="posts.length === 0"
+			:is-loading="isLoading" :post="post"
+			@update-post="updatePost" @edit-message="editMessage"
+			@add-message="addMessage"></PostCard>
 	</div>
 </template>
 
@@ -40,8 +33,6 @@ const ws = new WebSocket('wss://peaceful-citadel-43202.herokuapp.com/websockets'
 export default {
 	name: 'Home',
 	components: {
-		Sidebar: () => import('../components/Sidebar.vue'),
-		SidebarSm: () => import('../components/SidebarSm.vue'),
 		PostCard: () => import('../components/PostCard.vue')
 	},
 	data() {
@@ -90,6 +81,19 @@ export default {
 					console.log(error);
 					this.isLoading = false;
 				});
+		},
+		updatePost(data) {
+			const findPost = this.posts.find(item => item._id === data._id);
+			findPost.likes = data.likes;
+		},
+		editMessage(data) {
+			const findPost = this.posts.find(item => item._id === data._id);
+			const findMessage = findPost.messages.find(item => item._id === data.message._id);
+			findMessage.likes = data.message.likes;
+		},
+		addMessage(data) {
+			const findPost = this.posts.find(item => item._id === data._id);
+			findPost.messages = data.messages;
 		}
 	}
 };

@@ -6,7 +6,7 @@
 			</router-link>
 			<ul class="mt-4 ms-2">
 				<li class="mb-3 fw-bold">
-					<router-link :to="{ name: 'PersonalPage', params: { name: info.name } }" class="link d-flex align-items-center text-decoration-none">
+					<router-link :to="{ name: 'PersonalPage', params: { id: info._id } }" class="link d-flex align-items-center text-decoration-none">
 						<img :src="info.photo" alt="head" class="info-icon rounded-circle d-block me-3 border" v-if="info.photo">
 						<div class="info-icon rounded-circle border me-3 d-flex align-items-center justify-content-center" v-else>
 							<i class="bi bi-person fs-5"></i>

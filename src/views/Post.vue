@@ -1,41 +1,31 @@
 <template>
-	<div class="post-wrap d-flex flex-column">
-		<Loading :active.sync="isLoading"></Loading>
-		<div class="row">
-			<div class="col-12 col-md-7">
-				<h3 class="title py-3 border bg-white text-center mb-4">張貼動態</h3>
-				<div class="rounded-card card">
-					<div class="card-body p-4">
-						<div class="mb-3">
-							<label for="content" class="form-label">貼文內容</label>
-							<textarea class="form-control rounded-0" rows="3" id="content" placeholder="輸入您的貼文內容"
-								v-model="info.content"></textarea>
-						</div>
-						<div class="mb-3">
-							<label for="upload-file" class="btn form-label bg-black text-white shadow-none py-1 mb-0">上傳圖片</label>
-							<input class="form-control d-none" type="file" id="upload-file" accept="image/png, image/jpeg"
-								ref="upload-file" @change="getPreviewFile()">
-						</div>
-						<div class="image-wrap border rounded overflow-hidden" v-show="imagePreview">
-							<img :src="imagePreview" class="w-100">
-						</div>
-						<div v-if="errorMessage" class="text-danger text-center d-block mt-3">
-							<small>{{ errorMessage }}</small>
-						</div>
-						<div class="submit-btn-wrap mx-auto">
-							<button type="button" class="btn btn-secondary w-100 mt-3" :disabled="!info.content"
-								@click="submitPost()">
-								送出貼文
-							</button>
-						</div>
-					</div>
+	<div class="post-wrap">
+		<h3 class="title py-3 border bg-white text-center mb-4">張貼動態</h3>
+		<div class="rounded-card card">
+			<div class="card-body p-4">
+				<div class="mb-3">
+					<label for="content" class="form-label">貼文內容</label>
+					<textarea class="form-control rounded-0" rows="3" id="content" placeholder="輸入您的貼文內容"
+						v-model="info.content"></textarea>
 				</div>
-			</div>
-			<div class="col-12 col-md-5 d-none d-md-block">
-				<Sidebar></Sidebar>
-			</div>
-			<div class="d-md-none">
-				<SidebarSm></SidebarSm>
+				<div class="mb-3">
+					<label for="upload-file" class="btn form-label bg-black text-white shadow-none py-1 mb-0">上傳圖片</label>
+					<input class="form-control d-none" type="file" id="upload-file" accept="image/png, image/jpeg"
+						ref="upload-file" @change="getPreviewFile()">
+				</div>
+				<div class="image-wrap border rounded overflow-hidden" v-show="imagePreview">
+					<img :src="imagePreview" class="w-100">
+				</div>
+				<div v-if="errorMessage" class="text-danger text-center d-block mt-3">
+					<small>{{ errorMessage }}</small>
+				</div>
+				<div class="submit-btn-wrap mx-auto">
+					<button type="button" class="btn btn-secondary w-100 mt-3" :disabled="!info.content || isLoading"
+						@click="submitPost()">
+						<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="isLoading"></span>
+						送出貼文
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -47,10 +37,6 @@ const ws = new WebSocket('wss://peaceful-citadel-43202.herokuapp.com/websockets'
 
 export default {
 	name: 'Post',
-	components: {
-		Sidebar: () => import('../components/Sidebar.vue'),
-		SidebarSm: () => import('../components/SidebarSm.vue')
-	},
 	data() {
 		return {
 			info: {
