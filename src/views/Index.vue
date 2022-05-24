@@ -18,12 +18,16 @@
 </template>
 
 <script>
+import TheNavbar from '@layout/TheNavbar.vue';
+import Sidebar from '@components/Sidebar.vue';
+import SidebarSm from '@components/SidebarSm.vue';
+
 export default {
 	name: 'Template',
 	components: {
-		TheNavbar: () => import('@layout/TheNavbar.vue'),
-		Sidebar: () => import('@components/Sidebar.vue'),
-		SidebarSm: () => import('@components/SidebarSm.vue')
+		TheNavbar,
+		Sidebar,
+		SidebarSm
 	},
 	data() {
 		return {};

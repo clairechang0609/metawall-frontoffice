@@ -40,11 +40,14 @@
 </template>
 
 <script>
+import NavLogin from './components/Login.vue';
+import NavSignUp from './components/SignUp.vue';
+
 export default {
 	name: 'Login',
 	components: {
-		NavLogin: () => import('./components/Login.vue'),
-		NavSignUp: () => import('./components/SignUp.vue')
+		NavLogin,
+		NavSignUp
 	},
 	data() {
 		return {

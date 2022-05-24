@@ -28,12 +28,13 @@
 
 <script>
 import { mapState } from 'vuex';
+import PostCard from '@/components/PostCard.vue';
 // const ws = new WebSocket('wss://peaceful-citadel-43202.herokuapp.com/websockets');
 
 export default {
 	name: 'Home',
 	components: {
-		PostCard: () => import('../components/PostCard.vue')
+		PostCard
 	},
 	data() {
 		return {

@@ -22,7 +22,9 @@ module.exports = {
 	},
 	configureWebpack: {
 		resolve: {
+			symlinks: false,
 			alias: {
+				vue: path.resolve(`./node_modules/vue`),
 				'@': path.resolve(__dirname, './src'),
 				'@assets': path.resolve(__dirname, './src/assets'),
 				'@components': path.resolve(__dirname, './src/components'),
@@ -30,13 +32,13 @@ module.exports = {
 				'@router': path.resolve(__dirname, './src/router'),
 				'@store': path.resolve(__dirname, './src/store'),
 				'@views': path.resolve(__dirname, './src/views'),
-				'jquery': path.resolve(__dirname, 'node_modules/jquery/dist/jquery')
+				jquery: path.resolve(__dirname, 'node_modules/jquery/dist/jquery')
 			}
 		},
 		plugins: [
 			new webpack.ProvidePlugin({
 				jQuery: 'jquery',
-				'window.jQuery': 'jquery',
+				'window.jQuery': 'jquery'
 			})
 		]
 	}

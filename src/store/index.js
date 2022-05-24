@@ -1,9 +1,6 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import { createStore } from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
 import router from '@/router';
-
-Vue.use(Vuex);
 
 function initialState() {
 	return {
@@ -12,7 +9,7 @@ function initialState() {
 	};
 }
 
-const store = new Vuex.Store({
+const store = createStore({
 	plugins: [ createPersistedState({
 		key: 'metawall',
 		storage: window.localStorage,

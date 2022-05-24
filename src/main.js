@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import { createApp } from 'vue';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
@@ -9,11 +9,11 @@ import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import store from './store';
 
-Vue.use(VueAxios, axios);
-Vue.component('Loading', Loading);
+const app = createApp(App);
 
-new Vue({
-	store,
-	router,
-	render: (h) => h(App)
-}).$mount('#app');
+app.use(router);
+app.use(store);
+app.use(VueAxios, axios);
+app.component('Loading', Loading);
+
+app.mount('#app');

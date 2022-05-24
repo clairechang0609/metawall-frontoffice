@@ -25,11 +25,14 @@
 </template>
 
 <script>
+import EditProfile from './components/EditProfile';
+import EditPassword from './components/EditPassword';
+
 export default {
 	name: 'Account',
 	components: {
-		EditProfile: () => import('./components/EditProfile.vue'),
-		EditPassword: () => import('./components/EditPassword.vue')
+		EditProfile,
+		EditPassword
 	},
 	data() {
 		return {

@@ -51,11 +51,12 @@
 
 <script>
 import { mapState } from 'vuex';
+import PostCard from '@/components/PostCard.vue';
 
 export default {
 	name: 'PersonalPage',
 	components: {
-		PostCard: () => import('../components/PostCard.vue')
+		PostCard
 	},
 	data() {
 		return {

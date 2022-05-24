@@ -18,17 +18,19 @@
 		</div>
 		<div class="rounded-card card mb-3" v-for="data in following" :key="data.user._id">
 			<div class="card-body d-flex align-items-center">
-				<img :src="data.user.photo" class="photo border rounded-circle" v-if="data.user.photo">
-				<div class="photo rounded-circle border d-flex align-items-center justify-content-center" v-else>
+				<img :src="data.user.photo" class="photo border rounded-circle flex-shrink-0" v-if="data.user.photo">
+				<div class="photo rounded-circle border d-flex align-items-center justify-content-center flex-shrink-0" v-else>
 					<i class="bi bi-person fs-5"></i>
 				</div>
-				<div class="d-flex flex-column ms-3">
+				<div class="d-flex flex-column w-100 ms-3">
 					<router-link :to="{ name: 'PersonalPage', params: { id: data.user._id } }" class="fw-bold">
 						{{ data.user.name }}
 					</router-link>
-					<small class="text-black-50">您已追蹤 {{ getDays(data.createdAt) }} 天！</small>
+					<div class="d-flex align-items-center justify-content-between">
+						<small class="text-black-50">您已追蹤 {{ getDays(data.createdAt) }} 天！</small>
+						<small class="ms-auto">追蹤時間：{{ getDate(data.createdAt) }}</small>
+					</div>
 				</div>
-				<small class="ms-auto">追蹤時間：{{ getDate(data.createdAt) }}</small>
 			</div>
 		</div>
 	</div>
