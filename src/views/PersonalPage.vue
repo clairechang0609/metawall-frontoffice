@@ -9,7 +9,7 @@
 					</div>
 				</div>
 				<div class="ms-3">
-					<h6>{{ info.name }}</h6>
+					<h6 class="fw-bold">{{ info.name }}</h6>
 					<small>{{ info.followers }} 人追蹤</small>
 				</div>
 				<template v-if="!isSelf">
@@ -72,8 +72,10 @@ export default {
 	watch: {
 		'$route.params.id'(val) {
 			Object.assign(this.$data, this.$options.data());
-			this.getUserInfo();
-			this.getUserPosts();
+			if (val) {
+				this.getUserInfo();
+				this.getUserPosts();
+			}
 		}
 	},
 	computed: {
