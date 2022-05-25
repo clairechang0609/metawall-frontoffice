@@ -19,7 +19,7 @@
 			</div>
 		</div>
 		<!-- 貼文 -->
-		<PostCard v-for="post in posts" :key="post.id" :is-empty="posts.length === 0"
+		<PostCard v-for="post in posts" :key="post.id" :is-empty="!posts.length"
 			:is-loading="isLoading" :post="post"
 			@edit-post-likes="editLikes" @edit-comment-likes="editCommentLikes"
 			@add-comment="addComment"></PostCard>
