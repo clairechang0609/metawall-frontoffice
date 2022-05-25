@@ -40,7 +40,7 @@ export default {
 			return new Promise((resolve, reject) => {
 				const config = {
 					method: 'POST',
-					url: `${process.env.VUE_APP_APIPATH}/api/v1/users/login`,
+					url: `${process.env.VUE_APP_APIPATH}/api/v1/user/login`,
 					data: this.info
 				};
 				this.$http(config)

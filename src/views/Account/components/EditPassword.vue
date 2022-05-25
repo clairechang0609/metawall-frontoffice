@@ -53,7 +53,7 @@ export default {
 			this.isLoading = true;
 			const config = {
 				method: 'PATCH',
-				url: `${process.env.VUE_APP_APIPATH}/api/v1/users/update_password`,
+				url: `${process.env.VUE_APP_APIPATH}/api/v1/user/update_password`,
 				headers: {
 					authorization: `Bearer ${this.token}`
 				},

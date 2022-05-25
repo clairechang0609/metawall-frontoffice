@@ -93,7 +93,7 @@ export default {
 		getUserInfo() {
 			const config = {
 				method: 'GET',
-				url: `${process.env.VUE_APP_APIPATH}/api/v1/users/profile/${this.$route.params.id}`,
+				url: `${process.env.VUE_APP_APIPATH}/api/v1/user/profile/${this.$route.params.id}`,
 				headers: {
 					authorization: `Bearer ${this.token}`
 				}
@@ -137,7 +137,7 @@ export default {
 		toggleFollow(method) {
 			const config = {
 				method: method,
-				url: `${process.env.VUE_APP_APIPATH}/api/v1/users/${this.$route.params.id}/follow`,
+				url: `${process.env.VUE_APP_APIPATH}/api/v1/user/${this.$route.params.id}/follow`,
 				headers: {
 					authorization: `Bearer ${this.token}`
 				}

@@ -18,11 +18,12 @@
 
 <script>
 import { mapState } from 'vuex';
+import PostCard from '@components/PostCard.vue';
 
 export default {
 	name: 'PostModal',
 	components: {
-		PostCard: () => import('@components/PostCard.vue')
+		PostCard
 	},
 	props: {
 		id: {
@@ -53,7 +54,7 @@ export default {
 		getPost() {
 			const config = {
 				method: 'GET',
-				url: `${process.env.VUE_APP_APIPATH}/api/v1/posts/${this.id}`,
+				url: `${process.env.VUE_APP_APIPATH}/api/v1/post/${this.id}`,
 				headers: {
 					authorization: `Bearer ${this.token}`
 				}

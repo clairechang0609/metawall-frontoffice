@@ -45,7 +45,7 @@ export default {
 		submitSignup() {
 			const config = {
 				method: 'POST',
-				url: `${process.env.VUE_APP_APIPATH}/api/v1/users/register`,
+				url: `${process.env.VUE_APP_APIPATH}/api/v1/user/register`,
 				data: this.info
 			};
 			this.$http(config)

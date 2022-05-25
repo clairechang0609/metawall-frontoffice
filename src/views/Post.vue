@@ -71,7 +71,7 @@ export default {
 
 				const config = {
 					method: 'POST',
-					url: `${process.env.VUE_APP_APIPATH}/api/v1/files`,
+					url: `${process.env.VUE_APP_APIPATH}/api/v1/file`,
 					headers: {
 						authorization: `Bearer ${this.token}`
 					},
@@ -91,7 +91,7 @@ export default {
 			return new Promise((resolve, reject) => {
 				const config = {
 					method: 'POST',
-					url: `${process.env.VUE_APP_APIPATH}/api/v1/posts`,
+					url: `${process.env.VUE_APP_APIPATH}/api/v1/post`,
 					headers: {
 						authorization: `Bearer ${this.token}`
 					},

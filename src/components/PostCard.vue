@@ -131,7 +131,7 @@ export default {
 		toggleLike() {
 			const config = {
 				method: 'PATCH',
-				url: `${process.env.VUE_APP_APIPATH}/api/v1/posts/${this.post._id}/likes`,
+				url: `${process.env.VUE_APP_APIPATH}/api/v1/post/${this.post._id}/likes`,
 				headers: {
 					authorization: `Bearer ${this.token}`
 				}
@@ -147,7 +147,7 @@ export default {
 		toggleCommentLike(id) {
 			const config = {
 				method: 'PATCH',
-				url: `${process.env.VUE_APP_APIPATH}/api/v1/comments/${id}/likes`,
+				url: `${process.env.VUE_APP_APIPATH}/api/v1/comment/${id}/likes`,
 				headers: {
 					authorization: `Bearer ${this.token}`
 				}
@@ -166,7 +166,7 @@ export default {
 			}
 			const config = {
 				method: 'POST',
-				url: `${process.env.VUE_APP_APIPATH}/api/v1/posts/${this.post._id}/comments`,
+				url: `${process.env.VUE_APP_APIPATH}/api/v1/post/${this.post._id}/comment`,
 				headers: {
 					authorization: `Bearer ${this.token}`
 				},

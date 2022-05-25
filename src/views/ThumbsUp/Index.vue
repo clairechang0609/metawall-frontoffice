@@ -83,7 +83,7 @@ export default {
 			this.isLoading = true;
 			const config = {
 				method: 'GET',
-				url: `${process.env.VUE_APP_APIPATH}/api/v1/users/likes`,
+				url: `${process.env.VUE_APP_APIPATH}/api/v1/user/likes`,
 				headers: {
 					authorization: `Bearer ${this.token}`
 				}
@@ -101,7 +101,7 @@ export default {
 		toggleLike(id) {
 			const config = {
 				method: 'PATCH',
-				url: `${process.env.VUE_APP_APIPATH}/api/v1/posts/${id}/likes`,
+				url: `${process.env.VUE_APP_APIPATH}/api/v1/post/${id}/likes`,
 				headers: {
 					authorization: `Bearer ${this.token}`
 				}

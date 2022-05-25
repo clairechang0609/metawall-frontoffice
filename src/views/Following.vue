@@ -60,7 +60,7 @@ export default {
 			this.isLoading = true;
 			const config = {
 				method: 'GET',
-				url: `${process.env.VUE_APP_APIPATH}/api/v1/users/following`,
+				url: `${process.env.VUE_APP_APIPATH}/api/v1/user/following`,
 				headers: {
 					authorization: `Bearer ${this.token}`
 				}
