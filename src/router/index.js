@@ -9,7 +9,7 @@ const routes = [
 		meta: { requiresAuth: false }
 	},
 	{
-		path: '/',
+		path: '',
 		component: () => import('@/views/Index'),
 		meta: { requiresAuth: true },
 		children: [
