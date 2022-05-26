@@ -17,7 +17,7 @@
 		<div class="card-body">
 			<p v-html="showContent(post.content)" class="mb-3"></p>
 			<img :src="post.image" class="w-100 mb-3 border rounded" v-if="post.image">
-			<a href="#" class="text-decoration-none text-primary" @click.prevent="toggleLike()" v-if="post.likes.length">
+			<a href="#" class="text-decoration-none text-primary" @click.prevent="toggleLike()" v-if="post?.likes.length">
 				<i class="bi bi-hand-thumbs-up fs-5"></i>
 				{{ post.likes.length }}
 			</a>
@@ -38,7 +38,7 @@
 				</div>
 			</div>
 			<!-- 用戶回覆 -->
-			<ul v-if="post.comments.length > 0" class="mt-3">
+			<ul v-if="post?.comments.length > 0" class="mt-3">
 				<li v-for="comment in post.comments" :key="comment._id" class="mb-3">
 					<div class="comment-card card border-0">
 						<div class="card-body">
@@ -55,7 +55,7 @@
 									<div class="w-100 d-flex align-items-end mt-2">
 										<p v-html="showContent(comment.content)" class="me-3"></p>
 										<div class="flex-shrink-0 ms-auto">
-											<a href="#" class="text-decoration-none text-primary" @click.prevent="toggleCommentLike(comment._id)" v-if="comment.likes.length">
+											<a href="#" class="text-decoration-none text-primary" @click.prevent="toggleCommentLike(comment._id)" v-if="comment?.likes.length">
 												<i class="bi bi-hand-thumbs-up fs-6"></i>
 												{{ comment.likes.length }}
 											</a>

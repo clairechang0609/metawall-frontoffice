@@ -1,7 +1,7 @@
 <template>
 	<div class="thumbs-up-wrap">
 		<h3 class="title py-3 border bg-white text-center mb-4">我按讚的貼文</h3>
-		<CardDefault :is-loading="isLoading" :message="'目前尚無按讚貼文'" v-if="posts.length === 0"></CardDefault>
+		<CardDefault :is-loading="isLoading" :message="'目前尚無按讚貼文'" v-if="posts?.length === 0"></CardDefault>
 		<template v-else>
 			<div class="rounded-card card mb-3" v-for="post in posts" :key="post.id">
 				<div class="card-body d-flex align-items-center">

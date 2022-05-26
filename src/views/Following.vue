@@ -1,7 +1,7 @@
 <template>
 	<div class="following-wrap">
 		<h3 class="title py-3 border bg-white text-center mb-4">追蹤名單</h3>
-		<CardDefault :is-loading="isLoading" :message="'目前尚無追蹤名單'" v-if="following.length === 0"></CardDefault>
+		<CardDefault :is-loading="isLoading" :message="'目前尚無追蹤名單'" v-if="following?.length === 0"></CardDefault>
 		<div class="rounded-card card mb-3" v-for="data in following" :key="data.user._id">
 			<div class="card-body d-flex align-items-center">
 				<img :src="data.user.photo" class="photo border rounded-circle flex-shrink-0" v-if="data.user.photo">
