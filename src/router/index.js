@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import store from '@store';
+import Home from '@/views/Home';
 
 const routes = [
 	{
@@ -16,7 +17,7 @@ const routes = [
 			{
 				name: 'Home',
 				path: '/',
-				component: () => import('@/views/Home')
+				component: Home
 			},
 			{
 				name: 'Following',
