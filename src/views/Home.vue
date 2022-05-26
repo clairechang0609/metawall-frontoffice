@@ -19,22 +19,26 @@
 			</div>
 		</div>
 		<!-- 貼文 -->
-		<PostCard v-for="post in posts" :key="post.id" :is-empty="false"
-			:is-loading="isLoading" :post="post"
-			@edit-post-likes="editLikes" @edit-comment-likes="editCommentLikes"
-			@add-comment="addComment"></PostCard>
+		<CardDefault :is-loading="isLoading" v-if="posts.length === 0"></CardDefault>
+		<template v-else>
+			<PostCard v-for="post in posts" :key="post.id" :post="post"
+				@edit-post-likes="editLikes" @edit-comment-likes="editCommentLikes"
+				@add-comment="addComment"></PostCard>
+		</template>
 	</div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import PostCard from '@/components/PostCard.vue';
+import CardDefault from '@/components/CardDefault.vue';
 // const ws = new WebSocket('wss://peaceful-citadel-43202.herokuapp.com/websockets');
 
 export default {
 	name: 'Home',
 	components: {
-		PostCard
+		PostCard,
+		CardDefault
 	},
 	data() {
 		return {

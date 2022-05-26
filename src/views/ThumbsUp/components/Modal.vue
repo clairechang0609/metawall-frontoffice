@@ -7,8 +7,7 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body" v-if="post">
-					<PostCard :post="post" :is-empty="false"
-						@edit-post-likes="editPost" @edit-comment-likes="getPost"
+					<PostCard :post="post" @edit-post-likes="editPost" @edit-comment-likes="getPost"
 						@add-comment="getPost"></PostCard>
 				</div>
 			</div>

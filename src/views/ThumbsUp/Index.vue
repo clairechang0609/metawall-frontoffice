@@ -1,21 +1,7 @@
 <template>
 	<div class="thumbs-up-wrap">
 		<h3 class="title py-3 border bg-white text-center mb-4">我按讚的貼文</h3>
-		<div class="rounded-card card mb-3" v-if="posts.length === 0 || isLoading">
-			<div class="card-header bg-transparent border-bottom">
-				<span class="browser-icon bg-danger rounded-circle d-inline-block me-2"></span>
-				<span class="browser-icon bg-secondary rounded-circle d-inline-block me-2"></span>
-				<span class="browser-icon bg-success rounded-circle d-inline-block"></span>
-			</div>
-			<div class="card-body">
-				<div class="d-flex justify-content-center py-1" v-if="isLoading">
-					<div class="spinner-border" role="status">
-						<span class="visually-hidden">Loading...</span>
-					</div>
-				</div>
-				<p class="text-black-50 text-center py-1" v-else>目前尚無按讚貼文</p>
-			</div>
-		</div>
+		<CardDefault :is-loading="isLoading" :message="'目前尚無按讚貼文'" v-if="posts.length === 0"></CardDefault>
 		<template v-else>
 			<div class="rounded-card card mb-3" v-for="post in posts" :key="post.id">
 				<div class="card-body d-flex align-items-center">
@@ -50,11 +36,13 @@
 import { mapState } from 'vuex';
 import { Modal } from 'bootstrap';
 import PostModal from './components/Modal.vue';
+import CardDefault from '@/components/CardDefault.vue';
 
 export default {
 	name: 'ThumbsUp',
 	components: {
-		PostModal
+		PostModal,
+		CardDefault
 	},
 	data() {
 		return {
@@ -138,11 +126,6 @@ export default {
 		}
 		.message-card {
 			background-color: rgba($gray-300, 0.3);
-		}
-		.browser-icon {
-			width: 9px;
-			height: 9px;
-			border: 1px solid $gray-700;
 		}
 	}
 </style>

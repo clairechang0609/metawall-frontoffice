@@ -1,6 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import store from '@store';
-import Home from '@/views/Home';
 
 const routes = [
 	{
@@ -10,38 +9,38 @@ const routes = [
 		meta: { requiresAuth: false }
 	},
 	{
-		path: '',
+		path: '/',
 		component: () => import('@/views/Index'),
 		meta: { requiresAuth: true },
 		children: [
 			{
 				name: 'Home',
-				path: '/',
-				component: Home
+				path: '',
+				component: () => import('@/views/Home')
 			},
 			{
 				name: 'Following',
-				path: '/following',
+				path: 'following',
 				component: () => import('@/views/Following')
 			},
 			{
 				name: 'Account',
-				path: '/account',
+				path: 'account',
 				component: () => import('@/views/Account/Index')
 			},
 			{
 				name: 'Post',
-				path: '/post',
+				path: 'post',
 				component: () => import('@/views/Post')
 			},
 			{
 				name: 'ThumbsUp',
-				path: '/thumbs-up',
+				path: 'thumbs-up',
 				component: () => import('@/views/ThumbsUp/Index')
 			},
 			{
 				name: 'PersonalPage',
-				path: '/personal-page/:id',
+				path: 'personal-page/:id',
 				component: () => import('@/views/PersonalPage')
 			}
 		]

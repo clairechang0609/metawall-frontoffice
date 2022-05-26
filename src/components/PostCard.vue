@@ -1,20 +1,5 @@
 <template>
-	<div class="rounded-card card mb-3" v-if="isLoading || isEmpty">
-		<div class="card-header bg-transparent border-bottom">
-			<span class="browser-icon bg-danger rounded-circle d-inline-block me-2"></span>
-			<span class="browser-icon bg-secondary rounded-circle d-inline-block me-2"></span>
-			<span class="browser-icon bg-success rounded-circle d-inline-block"></span>
-		</div>
-		<div class="card-body">
-			<div class="d-flex justify-content-center py-4" v-if="isLoading">
-				<div class="spinner-border" role="status">
-					<span class="visually-hidden">Loading...</span>
-				</div>
-			</div>
-			<p class="text-black-50 text-center py-3" v-else>目前尚無動態，新增一則貼文吧！</p>
-		</div>
-	</div>
-	<div class="rounded-card card mb-3" v-else>
+	<div class="rounded-card card mb-3">
 		<div class="card-header bg-transparent pt-3 border-0">
 			<div class="d-flex align-items-center">
 				<img :src="post.user.photo" class="photo border rounded-circle" v-if="post.user.photo">
@@ -98,14 +83,6 @@ export default {
 		post: {
 			type: Object,
 			required: true
-		},
-		isEmpty: {
-			type: Boolean,
-			default: true
-		},
-		isLoading: {
-			type: Boolean,
-			default: false
 		}
 	},
 	data() {
@@ -198,10 +175,5 @@ export default {
 	}
 	.comment-card {
 		background-color: rgba($gray-300, 0.5);
-	}
-	.browser-icon {
-		width: 9px;
-		height: 9px;
-		border: 1px solid $gray-700;
 	}
 </style>

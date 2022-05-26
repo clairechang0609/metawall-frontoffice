@@ -42,21 +42,25 @@
 			</div>
 		</div>
 		<!-- 貼文 -->
-		<PostCard v-for="post in posts" :key="post.id" :is-empty="!posts.length"
-			:is-loading="isLoading" :post="post"
-			@edit-post-likes="editLikes" @edit-comment-likes="editCommentLikes"
-			@add-comment="addComment"></PostCard>
+		<CardDefault :is-loading="isLoading" :message="'該用戶尚無貼文'" v-if="posts.length === 0"></CardDefault>
+		<template v-else>
+			<PostCard v-for="post in posts" :key="post.id" :post="post"
+				@edit-post-likes="editLikes" @edit-comment-likes="editCommentLikes"
+				@add-comment="addComment"></PostCard>
+		</template>
 	</div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import PostCard from '@/components/PostCard.vue';
+import CardDefault from '@/components/CardDefault.vue';
 
 export default {
 	name: 'PersonalPage',
 	components: {
-		PostCard
+		PostCard,
+		CardDefault
 	},
 	data() {
 		return {

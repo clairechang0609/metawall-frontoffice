@@ -16,7 +16,7 @@
 					<a href="#" class="border-bottom p-0 text-black text-decoration-none">Member</a>
 				</div>
 				<ul class="dropdown-menu rounded-0 p-0 text-center" aria-labelledby="navbarDropdown">
-					<li>
+					<li v-if="info._id">
 						<router-link :to="{ name: 'PersonalPage', params: { id: info._id } }" class="dropdown-item text-decoration-none py-2 border-bottom">
 							我的貼文牆
 						</router-link>

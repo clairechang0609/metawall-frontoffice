@@ -2,7 +2,7 @@
 	<div class="sidebar-sm-card border bg-light">
 		<div class="py-2 px-5">
 			<ul class="d-flex justify-content-between">
-				<li>
+				<li v-if="info._id">
 					<router-link :to="{ name: 'PersonalPage', params: { id: info._id } }"
 						class="btn bg-white rounded-circle text-decoration-none shadow-none
 							d-flex align-items-center justify-content-center p-0">
