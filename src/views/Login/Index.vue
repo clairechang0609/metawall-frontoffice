@@ -1,12 +1,12 @@
 <template>
-	<div class="login-wrap d-flex align-items-center p-5">
+	<div class="login-wrap d-flex align-items-center p-4 p-sm-5">
 		<div class="login-card card bg-light mx-auto my-auto rounded-0">
 			<div class="card-body">
 				<div class="row">
-					<div class="col-6 d-flex align-items-center">
-						<img src="~@/assets/img/login/main-image.svg" alt="">
+					<div class="col-12 col-md-6 d-flex align-items-center justify-content-center order-2 order-md-1">
+						<img src="~@/assets/img/login/main-image.svg" class="mw-100">
 					</div>
-					<div class="col-6">
+					<div class="col-12 col-md-6 order-1 order-md-2 mb-4 mb-md-0">
 						<h1 class="logo text-primary text-center mb-2">MetaWall</h1>
 						<!-- tab-content -->
 						<div v-for="item in tabs"
@@ -71,9 +71,7 @@ export default {
 				}
 			]
 		};
-	},
-	mounted() {},
-	methods: {}
+	}
 };
 </script>
 
@@ -84,12 +82,18 @@ export default {
 			@include window-width;
 			box-shadow: -8px 8px 0px rgba($black, 0.15);
 			.card-body {
-				padding: 4.5rem 3rem;
+				padding: 2rem;
+				@include media-md {
+					padding: 4.5rem 3rem;
+				}
 			}
 		}
 		.logo {
 			@include metawall-logo;
-			font-size: 60px;
+			font-size: 45px;
+			@include media-sm {
+				font-size: 60px;
+			}
 		}
 	}
 </style>

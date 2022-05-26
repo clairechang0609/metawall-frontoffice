@@ -1,6 +1,6 @@
 <template>
 	<div class="text-center" @keyup.enter="submitLogin()">
-        <h2 class="mb-4">到元宇宙展開全新社交圈</h2>
+    <h2 class="mb-4">到元宇宙展開全新社交圈</h2>
 		<form class="mb-4 pt-2">
 			<div class="mb-3 w-100">
 				<input type="email" class="form-control rounded-0" placeholder="Email" v-model="info.email">
@@ -9,8 +9,8 @@
 				<input type="password" class="form-control rounded-0" placeholder="密碼" v-model="info.password">
 			</div>
 		</form>
-        <small v-if="errorMessage" class="text-danger d-block mb-3">{{ errorMessage }}</small>
-        <button type="button" class="btn btn-primary w-100" @click="submitLogin()" :disabled="!formIsFinished">登入</button>
+		<small v-if="errorMessage" class="text-danger d-block mb-3">{{ errorMessage }}</small>
+		<button type="button" class="btn btn-primary w-100" @click="submitLogin()" :disabled="!formIsFinished">登入</button>
 	</div>
 </template>
 
@@ -61,4 +61,11 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+	h2 {
+		font-size: 1.25rem;
+		@include media-sm {
+			font-size: 1.5rem;
+		}
+	}
+</style>

@@ -62,4 +62,11 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+	h2 {
+		font-size: 1.25rem;
+		@include media-sm {
+			font-size: 1.5rem;
+		}
+	}
+</style>

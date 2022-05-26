@@ -25,22 +25,7 @@
 			</div>
 		</div>
 		<!-- 搜尋欄 -->
-		<div class="row mb-3">
-			<div class="col-4">
-				<select name="type" class="form-control form-select rounded-0" v-model="search.sort" @change="getUserPosts()">
-					<option value="desc">最新貼文</option>
-					<option value="asc">最舊貼文</option>
-				</select>
-			</div>
-			<div class="col-8">
-				<div class="input-group">
-					<input type="text" class="form-control rounded-0" placeholder="搜尋貼文" v-model="search.keyword" @keyup.enter="getUserPosts()">
-					<button class="btn btn-primary shadow-none rounded-0 px-3 py-0 fs-5" type="button" @click="getUserPosts()">
-						<i class="bi bi-search"></i>
-					</button>
-				</div>
-			</div>
-		</div>
+		<Searchbar @search="getUserPosts"></Searchbar>
 		<!-- 貼文 -->
 		<CardDefault :is-loading="isLoading" :message="'該用戶尚無貼文'" v-if="posts?.length === 0"></CardDefault>
 		<template v-else>
@@ -53,22 +38,20 @@
 
 <script>
 import { mapState } from 'vuex';
+import Searchbar from '@/components/Searchbar.vue';
 import PostCard from '@/components/PostCard.vue';
 import CardDefault from '@/components/CardDefault.vue';
 
 export default {
 	name: 'PersonalPage',
 	components: {
+		Searchbar,
 		PostCard,
 		CardDefault
 	},
 	data() {
 		return {
 			info: {},
-			search: {
-				sort: 'desc', // 排序(預設降冪)
-				keyword: '' // 關鍵字
-			},
 			posts: [],
 			isLoading: false
 		};
@@ -93,7 +76,6 @@ export default {
 	},
 	mounted() {
 		this.getUserInfo();
-		this.getUserPosts();
 	},
 	methods: {
 		getUserInfo() {
@@ -112,7 +94,7 @@ export default {
 					console.log(error); // TODO:
 				});
 		},
-		getUserPosts() {
+		getUserPosts(search) {
 			this.isLoading = true;
 			const config = {
 				method: 'GET',
@@ -120,7 +102,7 @@ export default {
 				headers: {
 					authorization: `Bearer ${this.token}`
 				},
-				params: this.search
+				params: search
 			};
 			this.$http(config)
 				.then(response => {
