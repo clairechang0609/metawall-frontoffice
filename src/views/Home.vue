@@ -19,12 +19,6 @@
 			</div>
 		</div>
 		<!-- 貼文 -->
-		<!-- <CardDefault :is-loading="isLoading" v-if="posts?.length === 0"></CardDefault>
-		<template v-else>
-			<PostCard v-for="post in posts" :key="post.id" :post="post"
-				@edit-post-likes="editLikes" @edit-comment-likes="editCommentLikes"
-				@add-comment="addComment"></PostCard> -->
-		</template>
 	</div>
 </template>
 
