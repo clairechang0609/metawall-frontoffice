@@ -12,6 +12,9 @@
 					</router-link>
 					<small class="text-black-50">{{ getDate(post.createdAt) }}</small>
 				</div>
+				<button type="button" class="edit-btn border-0 rounded-circle ms-auto align-self-start">
+					<i class="bi bi-three-dots"></i>
+				</button>
 			</div>
 		</div>
 		<div class="card-body">
@@ -38,7 +41,7 @@
 				</div>
 			</div>
 			<!-- 用戶回覆 -->
-			<ul v-if="post?.comments.length > 0" class="mt-3">
+			<ul v-if="post?.comments?.length > 0" class="mt-3">
 				<li v-for="comment in post.comments" :key="comment._id" class="mb-3">
 					<div class="comment-card card border-0">
 						<div class="card-body">
@@ -175,5 +178,14 @@ export default {
 	}
 	.comment-card {
 		background-color: rgba($gray-300, 0.5);
+	}
+	.edit-btn {
+		width: 28px;
+		height: 28px;
+		color: $gray-600;
+		background-color: transparent;
+		&:hover {
+			background-color: rgba($gray-200, 0.75);
+		}
 	}
 </style>
