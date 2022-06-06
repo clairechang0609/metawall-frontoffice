@@ -7,7 +7,7 @@
 		<template v-else>
 			<PostCard v-for="post in posts" :key="post.id" :post="post"
 				@edit-post-likes="editLikes" @edit-comment-likes="editCommentLikes"
-				@add-comment="addComment"></PostCard>
+				@add-comment="addComment" @edit-post="getPosts"></PostCard>
 		</template>
 	</div>
 </template>
@@ -15,7 +15,7 @@
 <script>
 import { mapState } from 'vuex';
 import Searchbar from '@/components/Searchbar.vue';
-import PostCard from '@/components/PostCard.vue';
+import PostCard from '@/components/PostCard/Index';
 import CardDefault from '@/components/CardDefault.vue';
 // const ws = new WebSocket('wss://peaceful-citadel-43202.herokuapp.com/websockets');
 
@@ -29,7 +29,8 @@ export default {
 	data() {
 		return {
 			posts: [],
-			isLoading: false
+			isLoading: false,
+			search: {}
 		};
 	},
 	computed: {
@@ -47,7 +48,8 @@ export default {
 		// };
 	},
 	methods: {
-		getPosts(search) {
+		getPosts(search = this.search) {
+			this.search = search;
 			this.isLoading = true;
 			const config = {
 				method: 'GET',

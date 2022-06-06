@@ -3,12 +3,15 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header border-bottom-1">
-					<h3 class="modal-title" id="exampleModalLabel">查看貼文</h3>
+					<h3 class="modal-title" id="exampleModalLabel">提醒</h3>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
-				<div class="modal-body" v-if="post">
-					<PostCard :post="post" @edit-post-likes="editPost" @edit-comment-likes="getPost"
-						@add-comment="getPost"></PostCard>
+				<div class="modal-body text-danger text-center py-4">
+					刪除後將無法復原，您是否確定刪除貼文？
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary btn-sm" @click="deletePost()">確定</button>
 				</div>
 			</div>
 		</div>
@@ -17,32 +20,20 @@
 
 <script>
 import { mapState } from 'vuex';
-import PostCard from '@components/PostCard.vue';
 
 export default {
-	name: 'PostModal',
-	components: {
-		PostCard
-	},
+	name: 'DeleteModal',
 	props: {
-		id: {
+		deleteId: {
 			type: [ String, Number ],
 			require: true
+		},
+		deleteModal: {
+			type: Object
 		}
 	},
 	data() {
-		return {
-			post: ''
-		};
-	},
-	watch: {
-		id(val) {
-			if (!val) {
-				this.post = '';
-			} else {
-				this.getPost();
-			}
-		}
+		return {};
 	},
 	computed: {
 		...mapState({
@@ -50,32 +41,25 @@ export default {
 		})
 	},
 	methods: {
-		getPost() {
+		deletePost() {
 			const config = {
-				method: 'GET',
-				url: `${process.env.VUE_APP_APIPATH}/api/v1/post/${this.id}`,
+				method: 'DELETE',
+				url: `${process.env.VUE_APP_APIPATH}/api/v1/post/${this.deleteId}`,
 				headers: {
 					authorization: `Bearer ${this.token}`
 				}
 			};
 			this.$http(config)
 				.then(response => {
-					this.post = response.data.data;
+					this.deleteModal.hide();
+					this.$emit('delete');
 				})
 				.catch(error => {
 					console.log(error);
 				});
-		},
-		editPost() {
-			this.getPost();
-			this.$emit('edit-post');
 		}
 	}
 };
 </script>
 
-<style lang="scss" scoped>
-	.modal-body {
-		background-color: #EFECE7;
-	}
-</style>
+<style lang="scss" scoped></style>

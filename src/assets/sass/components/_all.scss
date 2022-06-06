@@ -130,6 +130,10 @@ a {
             box-shadow: -2px 2px 0px $black;
         }
     }
+    &.btn-sm {
+        padding: 0.45rem 1rem;
+        border-radius: 0.5rem;
+    }
 }
 
 // checkbox & radio

@@ -28,28 +28,22 @@
 				</div>
 			</div>
 		</template>
-		<PostModal :id="postId" ref="modal" @edit-post="getPosts()"></PostModal>
 	</div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-import { Modal } from 'bootstrap';
-import PostModal from './components/Modal.vue';
 import CardDefault from '@/components/CardDefault.vue';
 
 export default {
 	name: 'ThumbsUp',
 	components: {
-		PostModal,
 		CardDefault
 	},
 	data() {
 		return {
 			posts: [],
-			isLoading: false,
-			postId: '',
-			modal: ''
+			isLoading: false
 		};
 	},
 	computed: {
@@ -59,7 +53,6 @@ export default {
 	},
 	mounted() {
 		this.getPosts();
-		this.modal = new Modal(this.$refs.modal.$el);
 	},
 	methods: {
 		getDate(createdAt) { // 取得本地時間
@@ -104,8 +97,7 @@ export default {
 				});
 		},
 		checkPost(id) {
-			this.postId = id;
-			this.modal.show();
+			this.$router.push({ name: 'Post', params: { id } });
 		}
 	}
 };

@@ -29,14 +29,19 @@ const routes = [
 				component: () => import('@/views/Account/Index')
 			},
 			{
+				name: 'AddPost',
+				path: 'add-post',
+				component: () => import('@/views/AddPost')
+			},
+			{
 				name: 'Post',
-				path: 'post',
+				path: 'post/:id',
 				component: () => import('@/views/Post')
 			},
 			{
 				name: 'ThumbsUp',
 				path: 'thumbs-up',
-				component: () => import('@/views/ThumbsUp/Index')
+				component: () => import('@/views/ThumbsUp')
 			},
 			{
 				name: 'PersonalPage',

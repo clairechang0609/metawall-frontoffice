@@ -1,7 +1,7 @@
 <template>
 	<div class="sidebar-card card rounded-0">
 		<div class="card-body p-4">
-			<router-link :to="{ name: 'Post' }" class="btn btn-primary text-decoration-none w-100">
+			<router-link :to="{ name: 'AddPost' }" class="btn btn-primary text-decoration-none w-100">
 				張貼動態
 			</router-link>
 			<ul class="mt-4 ms-2">

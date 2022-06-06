@@ -12,9 +12,17 @@
 					</router-link>
 					<small class="text-black-50">{{ getDate(post.createdAt) }}</small>
 				</div>
-				<button type="button" class="edit-btn border-0 rounded-circle ms-auto align-self-start">
-					<i class="bi bi-three-dots"></i>
-				</button>
+				<!-- 編輯貼文 -->
+				<div class="dropdown ms-auto align-self-start" v-if="hasAuth(post.user._id)">
+					<button type="button" class="edit-btn border-0 rounded-circle"
+						id="edit-btn" data-bs-toggle="dropdown" aria-expanded="false">
+						<i class="bi bi-three-dots"></i>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-end rounded-0 border-dark p-0" aria-labelledby="edit-btn">
+						<li><a class="dropdown-item text-center border-bottom" href="#" @click.prevent="checkEditPost(post._id)">編輯貼文</a></li>
+						<li><a class="dropdown-item text-center" href="#" @click.prevent="checkDeletePost(post._id)">刪除貼文</a></li>
+					</ul>
+				</div>
 			</div>
 		</div>
 		<div class="card-body">
@@ -74,14 +82,24 @@
 				</li>
 			</ul>
 		</div>
+		<DeletePost ref="deleteModal" :delete-modal="deleteModal" :delete-id="deleteId"
+			@delete="deletePost"></DeletePost>
+		<EditPost ref="editModal" :id="editId" :edit-modal="editModal" @edit-post="editPost"></EditPost>
 	</div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import { Modal } from 'bootstrap';
+import DeletePost from './components/DeleteModal';
+import EditPost from './components/EditModal';
 
 export default {
 	name: 'PostCard',
+	components: {
+		DeletePost,
+		EditPost
+	},
 	props: {
 		post: {
 			type: Object,
@@ -90,7 +108,11 @@ export default {
 	},
 	data() {
 		return {
-			content: '' // 留言內容
+			content: '', // 留言內容
+			deleteModal: {},
+			deleteId: '',
+			editModal: {},
+			editId: ''
 		};
 	},
 	computed: {
@@ -99,8 +121,15 @@ export default {
 			info: state => state.info
 		})
 	},
+	mounted() {
+		this.deleteModal = new Modal(this.$refs.deleteModal.$el);
+		this.editModal = new Modal(this.$refs.editModal.$el);
+	},
 	methods: {
-		showContent(content) {
+		hasAuth(id) { // 是否有編輯權限
+			return id === this.info._id;
+		},
+		showContent(content) { // 顯示貼文內容
 			return content.replace(/\n/i, '</br>');
 		},
 		getDate(createdAt) { // 取得本地時間
@@ -140,7 +169,7 @@ export default {
 					console.log(error);
 				});
 		},
-		sendComment() {
+		sendComment() { // 留言
 			if (!this.content) {
 				return false;
 			}
@@ -162,6 +191,22 @@ export default {
 				.catch(error => {
 					console.log(error);
 				});
+		},
+		checkEditPost(postId) { // 編輯貼文
+			this.editId = postId;
+			this.editModal.show();
+		},
+		checkDeletePost(postId) { // 刪除貼文
+			this.deleteId = postId;
+			this.deleteModal.show();
+		},
+		deletePost() {
+			this.$emit('edit-post');
+			this.deleteId = '';
+		},
+		editPost() {
+			this.$emit('edit-post');
+			this.editId = '';
 		}
 	}
 };
@@ -185,7 +230,18 @@ export default {
 		color: $gray-600;
 		background-color: transparent;
 		&:hover {
-			background-color: rgba($gray-200, 0.75);
+			background-color: rgba($gray-300, 0.75);
+		}
+	}
+	.dropdown-menu {
+		min-width: 100px;
+	}
+	.dropdown-item {
+		font-size: 14px;
+		&:hover, &:active {
+			text-decoration: none;
+			background-color: $gray-300;
+			color: $black;
 		}
 	}
 </style>

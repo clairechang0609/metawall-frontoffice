@@ -24,7 +24,7 @@
 					</router-link>
 				</li>
 				<li>
-					<router-link :to="{ name: 'Post' }"
+					<router-link :to="{ name: 'AddPost' }"
 						class="btn btn-primary rounded-circle text-decoration-none shadow-none
 							d-flex align-items-center justify-content-center p-0">
 						<i class="bi bi-plus-circle fs-5"></i>

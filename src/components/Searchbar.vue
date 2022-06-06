@@ -1,7 +1,7 @@
 <template>
 	<div class="row mb-3">
 		<div class="col-4">
-			<select name="type" class="form-control form-select rounded-0" v-model="search.sort" @change="getPosts()">
+			<select name="type" class="form-control form-select rounded-0" v-model="search.sort" @change="startSearch()">
 				<option value="desc">最新貼文</option>
 				<option value="asc">最舊貼文</option>
 			</select>
@@ -9,8 +9,8 @@
 		<div class="col-8">
 			<div class="input-group">
 				<input type="text" class="form-control rounded-0" placeholder="搜尋貼文"
-					v-model="search.keyword" @keyup.enter="getPosts()">
-				<button class="btn btn-primary shadow-none rounded-0 px-3 py-0 fs-5" type="button" @click="getPosts()">
+					v-model="search.keyword" @keyup.enter="startSearch()">
+				<button class="btn btn-primary shadow-none rounded-0 px-3 py-0 fs-5" type="button" @click="startSearch()">
 					<i class="bi bi-search"></i>
 				</button>
 			</div>
@@ -20,7 +20,7 @@
 
 <script>
 export default {
-	name: 'Home',
+	name: 'SearchBar',
 	data() {
 		return {
 			search: {
